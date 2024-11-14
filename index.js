@@ -1,7 +1,9 @@
 const titleElements = document.getElementsByClassName('main');
 const formElementsOne = document.getElementsByClassName('questions1');
 const formElementsTwo = document.getElementsByClassName('questions2')
+
 const lectures = document.getElementById('lectures')
+const activities = document.getElementById('activities')
 
 const startButton = document.getElementById('startbutton');
 const backButton = document.getElementById('form-back-button');
@@ -216,6 +218,189 @@ addLectureButton.addEventListener('click', () => {
 
 addActivityButton.addEventListener('click', () => {
 
+    addedActivityNum++;
+
+    const newActivityInput = document.createElement('div')
+
+    activities.appendChild(newActivityInput)
+    newActivityInput.className = "added-activity"
+    newActivityInput.id = "activity" + addedActivityNum
+
+    /* NAME */
+
+    const newActivityName = document.createElement('label')
+    newActivityName.setAttribute('for','lecture-name')
+    newActivityInput.appendChild(newActivityName)
+
+    const nameInput = document.createElement('input')
+    nameInput.type = 'text'
+    nameInput.placeholder = 'Activity Name'
+    nameInput.setAttribute('name','activity-name')
+    nameInput.id = 'activity-name'
+    newActivityInput.appendChild(nameInput)
+
+    /* START DAY */
+
+    const newActivityStartDay = document.createElement('label')
+    newActivityStartDay.setAttribute('for','activity-start-day')
+
+    const selectStartDay = document.createElement('select')
+    selectStartDay.setAttribute('name','activity-start-day')
+    selectStartDay.setAttribute('id','activity-start-day')
+
+    const monday = document.createElement('option');
+    monday.setAttribute('value', 'Monday');
+    monday.textContent = 'Monday';
+
+    const tuesday = document.createElement('option');
+    tuesday .setAttribute('value', 'Tuesday');
+    tuesday .textContent = 'Tuesday ';
+
+    const wednesday = document.createElement('option');
+    wednesday.setAttribute('value', 'Wednesday');
+    wednesday.textContent = 'Wednesday';
+
+    const thursday = document.createElement('option');
+    thursday.setAttribute('value', 'Thursday');
+    thursday.textContent = 'Thursday';
+
+    const friday = document.createElement('option');
+    friday.setAttribute('value', 'Friday');
+    friday.textContent = 'Friday';
+
+    const everyday = document.createElement('option');
+    everyday.setAttribute('value', 'Everyday');
+    everyday.textContent = 'Everyday';
+
+    selectStartDay.appendChild(monday);
+    selectStartDay.appendChild(tuesday);
+    selectStartDay.appendChild(wednesday);
+    selectStartDay.appendChild(thursday);
+    selectStartDay.appendChild(friday);
+    selectStartDay.appendChild(everyday);
+
+    newActivityInput.appendChild(selectStartDay)
+    newActivityInput.appendChild(newActivityStartDay)
+
+    /* START TIME */
+
+    const newActivityStartTime = document.createElement('label')
+    newActivityStartTime.setAttribute('for','activity-start-time')
+    newActivityInput.appendChild(newActivityStartTime)
+
+    const startTimeInput = document.createElement('input')
+    startTimeInput.type = 'text'
+    startTimeInput.placeholder = 'Start Time'
+    startTimeInput.setAttribute('name','activity-start-time')
+    startTimeInput.id = 'activity-start-time'
+    newActivityInput.appendChild(startTimeInput)
+
+    /* START TIME FORMAT */
+
+    const startTimeFormat = document.createElement('label')
+    startTimeFormat.setAttribute('for','time-format-activity-start-time')
+
+    // Create the select element
+    const selectStartTimeFormat = document.createElement('select');
+    selectStartTimeFormat.setAttribute('name', 'time-format-activity-start-time');
+    selectStartTimeFormat.setAttribute('id', 'time-format-activity-start-time');
     
+    // Create the option elements
+    const optionAMStartTime  = document.createElement('option');
+    optionAMStartTime.setAttribute('value', 'AM');
+    optionAMStartTime.textContent = 'AM';
+
+    const optionPMStartTime = document.createElement('option');
+    optionPMStartTime.setAttribute('value', 'PM');
+    optionPMStartTime.textContent = 'PM';
+
+    selectStartTimeFormat.appendChild(optionAMStartTime)
+    selectStartTimeFormat.appendChild(optionPMStartTime)
+
+    newActivityInput.appendChild(startTimeFormat)
+    newActivityInput.appendChild(selectStartTimeFormat)
+
+    /* END DAY */
+
+    const newActivityEndDay = document.createElement('label')
+    newActivityEndDay.setAttribute('for','activity-end-day')
+
+    const selectEndDay = document.createElement('select')
+    selectEndDay.setAttribute('name','activity-end-day')
+    selectEndDay.setAttribute('id','activity-end-day')
+
+    const monday2 = document.createElement('option');
+    monday2.setAttribute('value', 'Monday');
+    monday2.textContent = 'Monday';
+
+    const tuesday2 = document.createElement('option');
+    tuesday2 .setAttribute('value', 'Tuesday');
+    tuesday2 .textContent = 'Tuesday ';
+
+    const wednesday2 = document.createElement('option');
+    wednesday2.setAttribute('value', 'Wednesday');
+    wednesday2.textContent = 'Wednesday';
+
+    const thursday2 = document.createElement('option');
+    thursday2.setAttribute('value', 'Thursday');
+    thursday2.textContent = 'Thursday';
+
+    const friday2 = document.createElement('option');
+    friday2.setAttribute('value', 'Friday');
+    friday2.textContent = 'Friday';
+
+    const everyday2 = document.createElement('option');
+    everyday2.setAttribute('value', 'Everyday');
+    everyday2.textContent = 'Everyday';
+
+    selectEndDay.appendChild(monday2);
+    selectEndDay.appendChild(tuesday2);
+    selectEndDay.appendChild(wednesday2);
+    selectEndDay.appendChild(thursday2);
+    selectEndDay.appendChild(friday2);
+    selectEndDay.appendChild(everyday2);
+
+    newActivityInput.appendChild(newActivityEndDay)
+    newActivityInput.appendChild(selectEndDay)
+
+    /* END TIME */
+
+    const newActivityEndTime = document.createElement('label')
+    newActivityEndTime.setAttribute('for','activity-end-time')
+    newActivityInput.appendChild(newActivityStartTime)
+
+    const endTimeInput = document.createElement('input')
+    endTimeInput.type = 'text'
+    endTimeInput.placeholder = 'End Time'
+    endTimeInput.setAttribute('name','activity-end-time')
+    endTimeInput.id = 'activity-end-time'
+    newActivityInput.appendChild(endTimeInput)
+
+    /* END TIME FORMAT */
+
+    const endTimeFormat = document.createElement('label')
+    endTimeFormat.setAttribute('for','time-format-activity-end-time')
+
+    // Create the select element
+    const selectEndTimeFormat = document.createElement('select');
+    selectEndTimeFormat.setAttribute('name', 'time-format-activity-end-time');
+    selectEndTimeFormat.setAttribute('id', 'time-format-activity-end-time');
+    
+    // Create the option elements
+    const optionAMEndTime  = document.createElement('option');
+    optionAMEndTime.setAttribute('value', 'AM');
+    optionAMEndTime.textContent = 'AM';
+
+    const optionPMEndTime = document.createElement('option');
+    optionPMEndTime.setAttribute('value', 'PM');
+    optionPMEndTime.textContent = 'PM';
+
+    selectEndTimeFormat.appendChild(optionAMStartTime)
+    selectEndTimeFormat.appendChild(optionPMEndTime)
+
+    newActivityInput.appendChild(endTimeFormat)
+    newActivityInput.appendChild(selectEndTimeFormat)
+
+
 
 })
