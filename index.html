@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>Lecture Cram Planner</title>
+        <link href="style.css" rel="stylesheet">
+        <script src="index.js" defer></script>
+
+    </head>
+
+    <body>
+
+        <div class="main">
+
+            <h1 id="lecture-cram-planner-title">Lecture Cram Planner</h1>
+            <button id="startbutton">Let's Begin!</button>
+            <p id="mission-statement">A program designed to help you catch up with lectures</p>
+            <p id="author">Made by Ethan James</p>
+
+        </div>
+
+        <div class="questions1">
+
+            <h3 id="form-title">Cramming Related Questions</h3>
+
+            <form id="activity-form">
+
+                <div id="sleep">
+                    <label for="sleep-time">Sleep Time</label>
+                    <input type="text" id="sleep-time" name="sleep-time">
+                    <br>
+
+                    <label for="time-format-sleep-time">AM or PM?</label>
+                    <select name="time-format-sleep-time" id="time-format-sleep-time">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+
+                <div id="wake">
+                    <label for="wake-time">Wake Time</label>
+                    <input type="text" id="wake-time" name="wake-time">
+                    <br>
+
+                    <label for="time-format-wake-time">AM or PM?</label>
+                    <select name="time-format-wake-time" id="time-format-wake-time">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+
+                <div id="breakfast">
+                    <label for="breakfast-preference">Do you have breakfast?</label>
+                    <select name="breakfast-preference" id="breakfast-preference">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+
+                    <label for="breakfast-time">Breakfast Time</label>
+                    <input type="text" id="breakfast-time" name="breakfast-time">
+
+                    <label for="time-format-breakfast-time">AM or PM?</label>
+                    <select name="time-format-breakfast-time" id="time-format-breakfast-time">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+
+                <div id="lunch">
+                    <label for="lunch-preference">Do you have lunch?</label>
+                    <select name="lunch-preference" id="lunch-preference">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+
+                    <label for="lunch-time">Lunch Time</label>
+                    <input type="text" id="lunch-time" name="lunch-time">
+
+                    <label for="time-format-lunch-time">AM or PM?</label>
+                    <select name="time-format-lunch-time" id="time-format-lunch-time">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+
+                <div id="dinner">
+                    <label for="dinner-time">Dinner Time</label>
+                    <input type="text" id="dinner-time" name="dinner-time">
+
+                    <label for="time-format-dinner-time">AM or PM?</label>
+                    <select name="time-format-dinner-time" id="time-format-dinner-time">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+
+            </form>
+
+            <div id="lectures">
+
+                <p id="lecture-form-info">Here you enter the lectures you don't miss during the week</p>
+                <p>All lectures will be assumed as 50 minutes long</p>
+
+                <button id="add-lecture-button">Add A Lecture</button>
+
+            </div>
+
+        
+        </div>
+
+        <div class="questions2">
+
+            <p>Here you enter all extra activities</p>
+
+            <div id="activities">
+
+                <button id="add-activity-button">Add An Activity</button>
+
+            </div>
+
+        </div>
+        
+        <button id="form-confirm-button">Confirm</button>
+        <button id="form-back-button">Back</button>
+    </body>
+
+</html>
