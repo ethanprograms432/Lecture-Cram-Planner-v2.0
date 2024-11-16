@@ -20,11 +20,25 @@
 
         </div>
 
+        <h3 id="form-title">Cramming Related Questions</h3>
+
         <div class="questions1">
 
-            <h3 id="form-title">Cramming Related Questions</h3>
+            <form action="http://localhost:3000/formquestions/" method="POST" id="first-form">
 
-            <form id="activity-form">
+                <div id="lectures-behind">
+
+                    <label for="num-lectures-behind">How many lectures are you currently behind on?</label>
+                    <input type="number" id="num-lectures-behind" name="num-lectures-behind" min="0">
+
+                </div>
+
+                <div id="stress-rating">
+
+                    <label for="num-stress-rating">Stress Rating (1 - 5)</label>
+                    <input type="number" id="num-stress-rating" name="num-stress-rating" min="1" max="5">
+
+                </div>
 
                 <div id="sleep">
                     <label for="sleep-time">Sleep Time</label>
@@ -95,7 +109,11 @@
                     </select>
                 </div>
 
+                <button type="submit" id="form-submit-button">Submit</button>
+
             </form>
+
+            <br>
 
             <div id="lectures">
 
@@ -104,6 +122,12 @@
 
                 <button id="add-lecture-button">Add A Lecture</button>
 
+                <form action="http://localhost:3000/lectures/" method="POST" id="added-lecture-form">
+
+                    <button type="submit" id="lectures-submit-button">Submit</button>
+
+                </form>
+
             </div>
 
         
@@ -111,19 +135,37 @@
 
         <div class="questions2">
 
-            <h3 id="form-2-title">Cramming Related Questions</h3>
-            <p>Here you enter all extra activities</p>
+                <p id="activity-entry-guidance">Here you enter all extra activities</p>
 
-            <div id="activities">
+                <div id="activities">
 
-                <button id="add-activity-button">Add An Activity</button>
+                    <button id="add-activity-button">Add An Activity</button>
 
-            </div>
+                    <form action="http://localhost:3000/activities/" method="POST" id="activity-form">
 
+                        <button type="submit" id="activities-submit-button">Submit</button>
+
+                    </form>
+
+                </div>
+
+                <p id="missed-lecture-entry-guidance">Here is where you would enter lectures that you regularly miss during the week</p>
+
+                <div id="missed-lectures">
+
+                    <button id="add-missed-lecture-button">Add A Missed Lecture</button>
+
+                    <form action="http://localhost:3000/missed-lectures/" method="POST" id="missed-lecture-form">
+
+                        <button type="submit" id="missed-lecture-submit-button">Submit</button>
+
+                    </form>
+
+                </div>
         </div>
         
-        <button id="form-confirm-button">Confirm</button>
-        <button id="form-back-button">Back</button>
+        <button id="next-page-button">Next Page</button>
+        <button id="previous-page-button">Previous Page</button>
     </body>
 
 </html>

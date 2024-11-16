@@ -2,19 +2,23 @@ const titleElements = document.getElementsByClassName('main');
 const formElementsOne = document.getElementsByClassName('questions1');
 const formElementsTwo = document.getElementsByClassName('questions2')
 
-const lectures = document.getElementById('lectures')
-const activities = document.getElementById('activities')
+const lectures = document.getElementById('added-lecture-form')
+const activities = document.getElementById('activity-form')
+const missedLectures = document.getElementById('missed-lecture-form')
 
 const startButton = document.getElementById('startbutton');
-const backButton = document.getElementById('form-back-button');
-const confirmButton = document.getElementById('form-confirm-button');
+const backButton = document.getElementById('previous-page-button');
+const confirmButton = document.getElementById('next-page-button');
 const addLectureButton = document.getElementById('add-lecture-button')
 const addActivityButton = document.getElementById('add-activity-button')
+const addMissedLectureButton = document.getElementById('add-missed-lecture-button')
+
+const questionsTitle = document.getElementById('form-title')
 
 let pageNumber = 0; // Track the current page
 let addedLectureNum = 0; // Tracks how many lectures have been added
 let addedActivityNum = 0; // Tracks how many activities have been added
-
+let addedMissedLectureNum = 0; // Tracks how many missed lectures have been added
 // Start button logic
 startButton.addEventListener('click', () => {
     Array.from(titleElements).forEach(element => {
@@ -25,6 +29,7 @@ startButton.addEventListener('click', () => {
         element.style.display = "block";  // Show form elements
     });
 
+    questionsTitle.style.display = 'block'
     backButton.style.display = 'block'
     confirmButton.style.display = 'block'
 
@@ -44,6 +49,7 @@ confirmButton.addEventListener('click', () => {
                 element.style.display = 'block'
 
             })
+            
             // You can add additional logic here to show the next step or finalize
             pageNumber = 2;  // Move to the next page
             break;
@@ -75,6 +81,7 @@ backButton.addEventListener('click', () => {
 
             backButton.style.display = 'none';
             confirmButton.style.display = 'none';
+            questionsTitle.style.display = 'none'
             pageNumber = 0;  // Return to the title page
             break;
 
@@ -113,7 +120,7 @@ addLectureButton.addEventListener('click', () => {
 
     // Creates a new row for a lectures information to be entered
     const newLectureInput = document.createElement('div')
-    lectures.appendChild(newLectureInput)
+    lectures.prepend(newLectureInput)
     newLectureInput.className = "added-lecture"
     newLectureInput.id = "lecture" + addedLectureNum
 
@@ -222,7 +229,7 @@ addActivityButton.addEventListener('click', () => {
 
     const newActivityInput = document.createElement('div')
 
-    activities.appendChild(newActivityInput)
+    activities.prepend(newActivityInput)
     newActivityInput.className = "added-activity"
     newActivityInput.id = "activity" + addedActivityNum
 
@@ -404,3 +411,113 @@ addActivityButton.addEventListener('click', () => {
 
 
 })
+
+addMissedLectureButton.addEventListener('click', () => {
+
+    addedMissedLectureNum++;
+
+    // Creates a new row for a lectures information to be entered
+    const newLectureInput = document.createElement('div')
+    missedLectures.prepend(newLectureInput)
+    newLectureInput.className = "added-missed-lecture"
+    newLectureInput.id = "missed-lecture" + addedMissedLectureNum
+
+    // DOM elements representing lecture content information
+    const newLectureName = document.createElement('label')
+    newLectureName.setAttribute('for','missed-lecture-name')
+    newLectureInput.appendChild(newLectureName)
+
+    const newLectureStartTime = document.createElement('label')
+    newLectureName.setAttribute('for','missed-lecture-start-time')
+    newLectureInput.appendChild(newLectureStartTime)
+
+    const nameInput = document.createElement('input')
+    nameInput.type = 'text'
+    nameInput.placeholder = 'Lecture Name'
+    nameInput.setAttribute('name','missed-lecture-name')
+    nameInput.id = 'missed-lecture-name'
+    newLectureInput.appendChild(nameInput)
+
+    const startTimeInput = document.createElement('input')
+    startTimeInput.type = 'text'
+    startTimeInput.placeholder = 'Start Time'
+    startTimeInput.setAttribute('name','missed-lecture-start-time')
+    startTimeInput.id = 'missed-lecture-start-time'
+    newLectureInput.appendChild(startTimeInput)
+
+    /* START TIME FORMAT */
+
+    const startTimeFormat = document.createElement('label')
+    startTimeFormat.setAttribute('for','time-format-missed-lecture-start-time')
+
+    // Create the select element
+    const select = document.createElement('select');
+    select.setAttribute('name', 'time-format-missed-lecture-start-time');
+    select.setAttribute('id', 'time-format-missed-lecture-start-time');
+
+    // Create the option elements
+    const optionAM = document.createElement('option');
+    optionAM.setAttribute('value', 'AM');
+    optionAM.textContent = 'AM';
+
+    const optionPM = document.createElement('option');
+    optionPM.setAttribute('value', 'PM');
+    optionPM.textContent = 'PM';
+
+    // Append the options to the select element
+    select.appendChild(optionAM);
+    select.appendChild(optionPM);
+
+    newLectureInput.appendChild(startTimeFormat)
+    newLectureInput.appendChild(select)
+
+    /* LECTURE DAY */
+
+    const lectureDay = document.createElement('label')
+    startTimeFormat.setAttribute('for','missed-lecture-day')
+
+    // Create the select element
+    const select2 = document.createElement('select');
+    select2.setAttribute('name', 'missed-lecture-day');
+    select2.setAttribute('id', 'missed-lecture-day');
+
+    // Create the option elements
+    const monday = document.createElement('option');
+    monday.setAttribute('value', 'Monday');
+    monday.textContent = 'Monday';
+
+    const tuesday = document.createElement('option');
+    tuesday .setAttribute('value', 'Tuesday');
+    tuesday .textContent = 'Tuesday ';
+
+    const wednesday = document.createElement('option');
+    wednesday.setAttribute('value', 'Wednesday');
+    wednesday.textContent = 'Wednesday';
+
+    const thursday = document.createElement('option');
+    thursday.setAttribute('value', 'Thursday');
+    thursday.textContent = 'Thursday';
+
+    const friday = document.createElement('option');
+    friday.setAttribute('value', 'Friday');
+    friday.textContent = 'Friday';
+
+    const everyday = document.createElement('option');
+    everyday.setAttribute('value', 'Everyday');
+    everyday.textContent = 'Everyday';
+
+
+    // Append the options to the select element
+    select2.appendChild(monday);
+    select2.appendChild(tuesday);
+    select2.appendChild(wednesday);
+    select2.appendChild(thursday);
+    select2.appendChild(friday);
+    select2.appendChild(everyday);
+
+
+    newLectureInput.appendChild(lectureDay)
+    newLectureInput.appendChild(select2)
+
+
+});
