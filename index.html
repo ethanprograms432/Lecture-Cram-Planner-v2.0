@@ -6,6 +6,7 @@
         <title>Lecture Cram Planner</title>
         <link href="style.css" rel="stylesheet">
         <script src="index.js" defer></script>
+        <script src="formData.js" defer></script>
 
     </head>
 
@@ -24,44 +25,36 @@
 
         <div class="questions1">
 
-            <form action="http://localhost:3000/formquestions/" method="POST" id="first-form">
+            <form id="first-form">
 
                 <div id="lectures-behind">
 
                     <label for="num-lectures-behind">How many lectures are you currently behind on?</label>
-                    <input type="number" id="num-lectures-behind" name="num-lectures-behind" min="0">
+                    <input type="number" id="num-lectures-behind" name="num-lectures-behind" min="0" step="1" required>
 
                 </div>
 
                 <div id="stress-rating">
 
                     <label for="num-stress-rating">Stress Rating (1 - 5)</label>
-                    <input type="number" id="num-stress-rating" name="num-stress-rating" min="1" max="5">
+                    <input type="number" id="num-stress-rating" name="num-stress-rating" min="1" max="5" step="1" required>
 
                 </div>
 
                 <div id="sleep">
                     <label for="sleep-time">Sleep Time</label>
-                    <input type="text" id="sleep-time" name="sleep-time">
+                    <input type="time" id="sleep-time" name="sleep-time" required>
                     <br>
 
                     <label for="time-format-sleep-time">AM or PM?</label>
-                    <select name="time-format-sleep-time" id="time-format-sleep-time">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
                 </div>
 
                 <div id="wake">
                     <label for="wake-time">Wake Time</label>
-                    <input type="text" id="wake-time" name="wake-time">
+                    <input type="time" id="wake-time" name="wake-time" required>
                     <br>
 
                     <label for="time-format-wake-time">AM or PM?</label>
-                    <select name="time-format-wake-time" id="time-format-wake-time">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
                 </div>
 
                 <div id="breakfast">
@@ -72,13 +65,8 @@
                     </select>
 
                     <label for="breakfast-time">Breakfast Time</label>
-                    <input type="text" id="breakfast-time" name="breakfast-time">
+                    <input type="time" id="breakfast-time" name="breakfast-time">
 
-                    <label for="time-format-breakfast-time">AM or PM?</label>
-                    <select name="time-format-breakfast-time" id="time-format-breakfast-time">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
                 </div>
 
                 <div id="lunch">
@@ -89,24 +77,21 @@
                     </select>
 
                     <label for="lunch-time">Lunch Time</label>
-                    <input type="text" id="lunch-time" name="lunch-time">
+                    <input type="time" id="lunch-time" name="lunch-time">
 
-                    <label for="time-format-lunch-time">AM or PM?</label>
-                    <select name="time-format-lunch-time" id="time-format-lunch-time">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
                 </div>
 
                 <div id="dinner">
-                    <label for="dinner-time">Dinner Time</label>
-                    <input type="text" id="dinner-time" name="dinner-time">
 
-                    <label for="time-format-dinner-time">AM or PM?</label>
-                    <select name="time-format-dinner-time" id="time-format-dinner-time">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
+                    <label for="dinner-preference">Do you have dinner?</label>
+                    <select name="dinner-preference" id="dinner-preference">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
                     </select>
+
+                    <label for="dinner-time">Dinner Time</label>
+                    <input type="time" id="dinner-time" name="dinner-time">
+
                 </div>
 
                 <button type="submit" id="form-submit-button">Submit</button>
@@ -121,8 +106,9 @@
                 <p>All lectures will be assumed as 50 minutes long</p>
 
                 <button id="add-lecture-button">Add A Lecture</button>
+                <p id="lecture-heading-info">Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
 
-                <form action="http://localhost:3000/lectures/" method="POST" id="added-lecture-form">
+                <form id="added-lecture-form">
 
                     <button type="submit" id="lectures-submit-button">Submit</button>
 
@@ -140,8 +126,8 @@
                 <div id="activities">
 
                     <button id="add-activity-button">Add An Activity</button>
-
-                    <form action="http://localhost:3000/activities/" method="POST" id="activity-form">
+                    <p id="activity-header-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Activity Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                    <form id="activity-form">
 
                         <button type="submit" id="activities-submit-button">Submit</button>
 
@@ -154,8 +140,8 @@
                 <div id="missed-lectures">
 
                     <button id="add-missed-lecture-button">Add A Missed Lecture</button>
-
-                    <form action="http://localhost:3000/missed-lectures/" method="POST" id="missed-lecture-form">
+                    <p id="lecture-heading-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
+                    <form id="missed-lecture-form">
 
                         <button type="submit" id="missed-lecture-submit-button">Submit</button>
 

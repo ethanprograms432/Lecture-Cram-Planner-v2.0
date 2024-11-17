@@ -8,7 +8,6 @@
 body {
 
     background-image: url('resources/cramming.png');
-
 }
 
 .main {
@@ -56,12 +55,6 @@ body {
     background-color: white;
     background-image: url('resources/Student-Overwhelmed.jpg');
     margin-left: -50px;
-
-}
-
-#added-lecture-form div {
-
-
 
 }
 
@@ -186,4 +179,10 @@ body {
 #lectures {
 
     margin-top: 50px;
+}
+
+#lecture-heading-info {
+
+    margin-left: -80px;
+
 }

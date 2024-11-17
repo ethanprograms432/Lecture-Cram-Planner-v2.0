@@ -130,7 +130,7 @@ addLectureButton.addEventListener('click', () => {
     newLectureInput.appendChild(newLectureName)
 
     const newLectureStartTime = document.createElement('label')
-    newLectureName.setAttribute('for','lecture-start-time')
+    newLectureStartTime.setAttribute('for','lecture-start-time')
     newLectureInput.appendChild(newLectureStartTime)
 
     const nameInput = document.createElement('input')
@@ -141,42 +141,15 @@ addLectureButton.addEventListener('click', () => {
     newLectureInput.appendChild(nameInput)
 
     const startTimeInput = document.createElement('input')
-    startTimeInput.type = 'text'
+    startTimeInput.type = 'time'
     startTimeInput.placeholder = 'Start Time'
     startTimeInput.setAttribute('name','lecture-start-time')
     startTimeInput.id = 'lecture-start-time'
     newLectureInput.appendChild(startTimeInput)
 
-    /* START TIME FORMAT */
-
-    const startTimeFormat = document.createElement('label')
-    startTimeFormat.setAttribute('for','time-format-lecture-start-time')
-
-    // Create the select element
-    const select = document.createElement('select');
-    select.setAttribute('name', 'time-format-lecture-start-time');
-    select.setAttribute('id', 'time-format-lecture-start-time');
-
-    // Create the option elements
-    const optionAM = document.createElement('option');
-    optionAM.setAttribute('value', 'AM');
-    optionAM.textContent = 'AM';
-
-    const optionPM = document.createElement('option');
-    optionPM.setAttribute('value', 'PM');
-    optionPM.textContent = 'PM';
-
-    // Append the options to the select element
-    select.appendChild(optionAM);
-    select.appendChild(optionPM);
-
-    newLectureInput.appendChild(startTimeFormat)
-    newLectureInput.appendChild(select)
-
     /* LECTURE DAY */
 
     const lectureDay = document.createElement('label')
-    startTimeFormat.setAttribute('for','lecture-day')
 
     // Create the select element
     const select2 = document.createElement('select');
@@ -275,6 +248,14 @@ addActivityButton.addEventListener('click', () => {
     friday.setAttribute('value', 'Friday');
     friday.textContent = 'Friday';
 
+    const saturday = document.createElement('option');
+    saturday.setAttribute('value', 'Saturday');
+    saturday.textContent = 'Saturday';
+
+    const sunday = document.createElement('option');
+    sunday.setAttribute('value', 'Sunday');
+    sunday.textContent = 'Sunday';
+
     const everyday = document.createElement('option');
     everyday.setAttribute('value', 'Everyday');
     everyday.textContent = 'Everyday';
@@ -284,6 +265,8 @@ addActivityButton.addEventListener('click', () => {
     selectStartDay.appendChild(wednesday);
     selectStartDay.appendChild(thursday);
     selectStartDay.appendChild(friday);
+    selectStartDay.appendChild(saturday);
+    selectStartDay.appendChild(sunday);
     selectStartDay.appendChild(everyday);
 
     newActivityInput.appendChild(selectStartDay)
@@ -296,36 +279,11 @@ addActivityButton.addEventListener('click', () => {
     newActivityInput.appendChild(newActivityStartTime)
 
     const startTimeInput = document.createElement('input')
-    startTimeInput.type = 'text'
+    startTimeInput.type = 'time'
     startTimeInput.placeholder = 'Start Time'
     startTimeInput.setAttribute('name','activity-start-time')
     startTimeInput.id = 'activity-start-time'
     newActivityInput.appendChild(startTimeInput)
-
-    /* START TIME FORMAT */
-
-    const startTimeFormat = document.createElement('label')
-    startTimeFormat.setAttribute('for','time-format-activity-start-time')
-
-    // Create the select element
-    const selectStartTimeFormat = document.createElement('select');
-    selectStartTimeFormat.setAttribute('name', 'time-format-activity-start-time');
-    selectStartTimeFormat.setAttribute('id', 'time-format-activity-start-time');
-    
-    // Create the option elements
-    const optionAMStartTime  = document.createElement('option');
-    optionAMStartTime.setAttribute('value', 'AM');
-    optionAMStartTime.textContent = 'AM';
-
-    const optionPMStartTime = document.createElement('option');
-    optionPMStartTime.setAttribute('value', 'PM');
-    optionPMStartTime.textContent = 'PM';
-
-    selectStartTimeFormat.appendChild(optionAMStartTime)
-    selectStartTimeFormat.appendChild(optionPMStartTime)
-
-    newActivityInput.appendChild(startTimeFormat)
-    newActivityInput.appendChild(selectStartTimeFormat)
 
     /* END DAY */
 
@@ -377,37 +335,11 @@ addActivityButton.addEventListener('click', () => {
     newActivityInput.appendChild(newActivityStartTime)
 
     const endTimeInput = document.createElement('input')
-    endTimeInput.type = 'text'
+    endTimeInput.type = 'time'
     endTimeInput.placeholder = 'End Time'
     endTimeInput.setAttribute('name','activity-end-time')
     endTimeInput.id = 'activity-end-time'
     newActivityInput.appendChild(endTimeInput)
-
-    /* END TIME FORMAT */
-
-    const endTimeFormat = document.createElement('label')
-    endTimeFormat.setAttribute('for','time-format-activity-end-time')
-
-    // Create the select element
-    const selectEndTimeFormat = document.createElement('select');
-    selectEndTimeFormat.setAttribute('name', 'time-format-activity-end-time');
-    selectEndTimeFormat.setAttribute('id', 'time-format-activity-end-time');
-    
-    // Create the option elements
-    const optionAMEndTime  = document.createElement('option');
-    optionAMEndTime.setAttribute('value', 'AM');
-    optionAMEndTime.textContent = 'AM';
-
-    const optionPMEndTime = document.createElement('option');
-    optionPMEndTime.setAttribute('value', 'PM');
-    optionPMEndTime.textContent = 'PM';
-
-    selectEndTimeFormat.appendChild(optionAMStartTime)
-    selectEndTimeFormat.appendChild(optionPMEndTime)
-
-    newActivityInput.appendChild(endTimeFormat)
-    newActivityInput.appendChild(selectEndTimeFormat)
-
 
 
 })
@@ -439,42 +371,15 @@ addMissedLectureButton.addEventListener('click', () => {
     newLectureInput.appendChild(nameInput)
 
     const startTimeInput = document.createElement('input')
-    startTimeInput.type = 'text'
+    startTimeInput.type = 'time'
     startTimeInput.placeholder = 'Start Time'
     startTimeInput.setAttribute('name','missed-lecture-start-time')
     startTimeInput.id = 'missed-lecture-start-time'
     newLectureInput.appendChild(startTimeInput)
 
-    /* START TIME FORMAT */
-
-    const startTimeFormat = document.createElement('label')
-    startTimeFormat.setAttribute('for','time-format-missed-lecture-start-time')
-
-    // Create the select element
-    const select = document.createElement('select');
-    select.setAttribute('name', 'time-format-missed-lecture-start-time');
-    select.setAttribute('id', 'time-format-missed-lecture-start-time');
-
-    // Create the option elements
-    const optionAM = document.createElement('option');
-    optionAM.setAttribute('value', 'AM');
-    optionAM.textContent = 'AM';
-
-    const optionPM = document.createElement('option');
-    optionPM.setAttribute('value', 'PM');
-    optionPM.textContent = 'PM';
-
-    // Append the options to the select element
-    select.appendChild(optionAM);
-    select.appendChild(optionPM);
-
-    newLectureInput.appendChild(startTimeFormat)
-    newLectureInput.appendChild(select)
-
     /* LECTURE DAY */
 
     const lectureDay = document.createElement('label')
-    startTimeFormat.setAttribute('for','missed-lecture-day')
 
     // Create the select element
     const select2 = document.createElement('select');
