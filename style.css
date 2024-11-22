@@ -34,12 +34,16 @@ body {
     text-align: center;
 }
 
+.diagram {
+
+    display: none;
+    text-align: center;
+}
+
 /* forms */
 
 #first-form {
 
-    border: 5px solid white;
-    background-color: white;
     margin: -70px;
     background-image: url('resources/cramming-study-method.jpg')
 }
@@ -51,8 +55,6 @@ body {
 
 #added-lecture-form {
 
-    border: 5px solid white;
-    background-color: white;
     background-image: url('resources/Student-Overwhelmed.jpg');
     margin-left: -50px;
 
@@ -63,39 +65,39 @@ body {
 #previous-page-button {
 
     background-color: red;
-    position: absolute;
+    position: fixed;
     color: white;
     bottom: 0;
     left: 0;
     display: none;
     width: 200px;
-    height: 100px;
-    font-size: 30px;
+    height: 71px;
+    font-size: 25px;
 
 }
 
 #next-page-button {
 
     background-color: green;
-    position: absolute;
+    position: fixed;
     color: white;
     opacity: 1;
     bottom: 0;
     right: 0;
     display: none;
     width: 200px;
-    height: 100px;
-    font-size: 30px;
+    height: 71px;
+    font-size: 25px;
 
 }
 
-#form-confirm-button:hover {
+#next-page-button:hover {
 
     color: lime;
     opacity: 0.6;
 }
 
-#form-back-button:hover {
+#previous-page-button:hover {
 
     color: orange;
     opacity: 0.6;
@@ -140,6 +142,7 @@ body {
 
     font-size: 50px;
     color: white;
+    bottom: 0px;
     margin: 150px;
     border: 5px solid red;
     background-color: red;
@@ -184,5 +187,121 @@ body {
 #lecture-heading-info {
 
     margin-left: -80px;
+
+}
+
+/* DIAGRAM */
+
+#diagram-title {
+
+    color: white;
+    border: 5px solid red;
+    background-color: red;
+    font-size: 60px;
+    margin: -8px;
+}
+
+#time-to-catch-up {
+
+    color: red;
+    border: 5px solid white;
+    height: 20.25px;
+    background-color: white;
+    margin: -8px;
+    text-align: left;
+
+}
+
+.diagram-times {
+
+    font-size: 15px;
+    margin-left: -8px;
+
+}
+
+.diagram-times div {
+
+    border: 1px solid black;
+    width: 240px;
+    height: 28.25px; 
+    background-color: white; 
+    color: black;
+
+}
+
+.monday-slots div {
+
+    width: 240px;
+    height: 28.25px; 
+    background-color: white;
+    position: absolute; 
+    color: black; 
+    border: 1px solid black;
+
+}
+
+.tuesday-slots div {
+
+    width: 240px;
+    height: 28.25px; 
+    background-color: white;
+    position: absolute;  
+    color: black; 
+    border: 1px solid black;
+
+}
+
+.wednesday-slots div {
+
+    width: 240px;
+    height: 28.25px; 
+    background-color: white;
+    position: absolute;  
+    color: black; 
+    border: 1px solid black;
+
+}
+
+.thursday-slots div {
+
+    width: 240px;
+    height: 28.25px; 
+    background-color: white;
+    position: absolute;  
+    color: black; 
+    border: 1px solid black;
+
+}
+
+.friday-slots div {
+
+    width: 240px;
+    height: 28.25px; 
+    background-color: white;
+    position: absolute; 
+    color: black; 
+    border: 1px solid black;
+
+}
+
+.saturday-slots div {
+
+    width: 240px;
+    height: 28.25px; 
+    background-color: white; 
+    position: absolute; 
+    color: black; 
+    border: 1px solid black;
+
+}
+
+.sunday-slots div {
+
+    width: 240px;
+    height: 28.25px; 
+    background-color: white; 
+    position: absolute; 
+    color: black; 
+    border: 1px solid black;
 
 }

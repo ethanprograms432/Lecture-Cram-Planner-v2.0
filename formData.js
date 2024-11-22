@@ -1,5 +1,7 @@
+let formsSubmitted = 0
 
 document.getElementById('first-form').addEventListener('submit', async function (event) {
+    formsSubmitted += 1
     event.preventDefault();
   
     const formData = new FormData(this);
@@ -34,6 +36,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
   });
 
   document.getElementById('added-lecture-form').addEventListener('submit', async function (event) {
+    formsSubmitted += 1
     event.preventDefault();
   
     const formData = new FormData(this);
@@ -77,6 +80,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
   });
 
   document.getElementById('activity-form').addEventListener('submit', async function (event) {
+    formsSubmitted += 1
     event.preventDefault();
   
     const formData = new FormData(this);
@@ -120,6 +124,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
   });
 
   document.getElementById('missed-lecture-form').addEventListener('submit', async function (event) {
+    formSubmitted += 1
     event.preventDefault();
   
     const formData = new FormData(this);

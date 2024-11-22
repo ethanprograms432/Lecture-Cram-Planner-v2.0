@@ -1,6 +1,7 @@
 const titleElements = document.getElementsByClassName('main');
 const formElementsOne = document.getElementsByClassName('questions1');
 const formElementsTwo = document.getElementsByClassName('questions2')
+const diagramElements = document.getElementsByClassName('diagram')
 
 const lectures = document.getElementById('added-lecture-form')
 const activities = document.getElementById('activity-form')
@@ -19,6 +20,7 @@ let pageNumber = 0; // Track the current page
 let addedLectureNum = 0; // Tracks how many lectures have been added
 let addedActivityNum = 0; // Tracks how many activities have been added
 let addedMissedLectureNum = 0; // Tracks how many missed lectures have been added
+let formsSubmitted = 0
 // Start button logic
 startButton.addEventListener('click', () => {
     Array.from(titleElements).forEach(element => {
@@ -34,6 +36,7 @@ startButton.addEventListener('click', () => {
     confirmButton.style.display = 'block'
 
     pageNumber = 1;  // Set page number to 1 when moving to form
+    // DIMENSIONS 1920x709
 });
 
 // Confirm button logic
@@ -56,13 +59,28 @@ confirmButton.addEventListener('click', () => {
         
         case 2:
 
-            Array.from(formElementsTwo).forEach(element => {
+            if(formsSubmitted < 4) {
 
-                element.style.display = 'none';
+                alert("Please fill out all forms before proceeding!")
+            } else {
 
-            })
-            pageNumber = 3;
-            break;
+                Array.from(formElementsTwo).forEach(element => {
+
+                    element.style.display = 'none';
+    
+                })
+                questionsTitle.style.display = 'none';
+    
+                Array.from(diagramElements).forEach(element => {
+    
+                    element.style.display = 'block';
+    
+                })
+                setUpTimeTableSlots();
+                pageNumber = 3;
+                break;
+            }
+            
         // You can add more cases if you have other pages to handle
     }
 });
@@ -109,6 +127,13 @@ backButton.addEventListener('click', () => {
                 element.style.display = 'block'
             })
             pageNumber = 2;
+            questionsTitle.style.display = 'block';
+
+            Array.from(diagramElements).forEach(element => {
+
+
+                element.style.display = 'none';
+            })
             break;
         // Handle other cases if necessary
     }
@@ -426,3 +451,267 @@ addMissedLectureButton.addEventListener('click', () => {
 
 
 });
+
+function setUpTimeTableSlots()
+{
+
+    const mondaySlots = document.getElementById("monday-section")
+    const tuesdaySlots = document.getElementById("tuesday-section")
+    const wednesdaySlots = document.getElementById("wednesday-section")
+    const thursdaySlots = document.getElementById("thursday-section")
+    const fridaySlots = document.getElementById("friday-section")
+    const saturdaySlots = document.getElementById("saturday-section")
+    const sundaySlots = document.getElementById("sunday-section")
+
+    let currY = 100.25
+    for (let i = 0; i < 24; i++) {
+
+        const newSlot = document.createElement("div")
+        newSlot.style.left = "240px"
+        newSlot.style.top = `${currY}px`
+        mondaySlots.appendChild(newSlot)
+        currY = currY + 30.25
+
+    }
+
+    currY = 100.25
+    for (let i = 0; i < 24; i++) {
+
+        const newSlot = document.createElement("div")
+        newSlot.style.left = "480px";
+        newSlot.style.top = `${currY}px`
+        tuesdaySlots.appendChild(newSlot)
+        currY = currY + 30.25
+
+    }
+
+    currY = 100.25
+    for (let i = 0; i < 24; i++) {
+
+        const newSlot = document.createElement("div")
+        newSlot.style.left = "720px";
+        newSlot.style.top = `${currY}px`
+        wednesdaySlots.appendChild(newSlot)
+        currY = currY + 30.25
+
+    }
+
+    currY = 100.25
+    for (let i = 0; i < 24; i++) {
+
+        const newSlot = document.createElement("div")
+        newSlot.style.left = "960px";
+        newSlot.style.top = `${currY}px`
+        thursdaySlots.appendChild(newSlot)
+        currY = currY + 30.25
+
+    }
+
+    currY = 100.25
+    for (let i = 0; i < 24; i++) {
+
+        const newSlot = document.createElement("div")
+        newSlot.style.left = "1200px";
+        newSlot.style.top = `${currY}px`
+        fridaySlots.appendChild(newSlot)
+        currY = currY + 30.25
+
+    }
+
+    currY = 100.25
+    for (let i = 0; i < 24; i++) {
+
+        const newSlot = document.createElement("div")
+        newSlot.style.left = "1440px";
+        newSlot.style.top = `${currY}px`
+        saturdaySlots.appendChild(newSlot)
+        currY = currY + 30.25
+
+    }
+
+    currY = 100.25
+    for (let i = 0; i < 24; i++) {
+
+        const newSlot = document.createElement("div")
+        newSlot.style.left = "1680px";
+        newSlot.style.top = `${currY}px`
+        sundaySlots.appendChild(newSlot)
+        currY = currY + 30.25
+
+    }
+
+}
+
+document.getElementById('first-form').addEventListener('submit', async function (event) {
+    formsSubmitted += 1
+    event.preventDefault();
+  
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+  
+    try {
+      const response = await fetch('http://localhost:3000/formquestions/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      const contentType = response.headers.get('Content-Type') || '';
+  
+      if (response.ok) {
+        if (contentType.includes('application/json')) {
+          const result = await response.json();
+          alert('Form submitted successfully: ' + JSON.stringify(result));
+        } else {
+          const result = await response.text();
+          alert('Form submitted successfully: ' + result);
+        }
+      } else {
+        const errorText = await response.text();
+        alert(`Error submitting form: ${response.status} ${response.statusText}\n${errorText}`);
+      }
+    } catch (error) {
+      alert('An error occurred: ' + error.message);
+    }
+  });
+
+  document.getElementById('added-lecture-form').addEventListener('submit', async function (event) {
+    formsSubmitted += 1
+    event.preventDefault();
+  
+    const formData = new FormData(this);
+    const data = {}
+
+    formData.forEach((value,key) => {
+
+        if (!data[key]) {
+        data[key] = [];
+        }
+        data[key].push(value);
+
+    })
+  
+    try {
+      const response = await fetch('http://localhost:3000/lectures/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      const contentType = response.headers.get('Content-Type') || '';
+  
+      if (response.ok) {
+        if (contentType.includes('application/json')) {
+          const result = await response.json();
+          alert('Form submitted successfully: ' + JSON.stringify(result));
+        } else {
+          const result = await response.text();
+          alert('Form submitted successfully: ' + result);
+        }
+      } else {
+        const errorText = await response.text();
+        alert(`Error submitting form: ${response.status} ${response.statusText}\n${errorText}`);
+      }
+    } catch (error) {
+      alert('An error occurred: ' + error.message);
+    }
+  });
+
+  document.getElementById('activity-form').addEventListener('submit', async function (event) {
+    formsSubmitted += 1
+    event.preventDefault();
+  
+    const formData = new FormData(this);
+    const data = {}
+
+    formData.forEach((value,key) => {
+
+        if (!data[key]) {
+        data[key] = [];
+        }
+        data[key].push(value);
+
+    })
+  
+    try {
+      const response = await fetch('http://localhost:3000/activities/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      const contentType = response.headers.get('Content-Type') || '';
+  
+      if (response.ok) {
+        if (contentType.includes('application/json')) {
+          const result = await response.json();
+          alert('Form submitted successfully: ' + JSON.stringify(result));
+        } else {
+          const result = await response.text();
+          alert('Form submitted successfully: ' + result);
+        }
+      } else {
+        const errorText = await response.text();
+        alert(`Error submitting form: ${response.status} ${response.statusText}\n${errorText}`);
+      }
+    } catch (error) {
+      alert('An error occurred: ' + error.message);
+    }
+  });
+
+  document.getElementById('missed-lecture-form').addEventListener('submit', async function (event) {
+    formsSubmitted += 1
+    event.preventDefault();
+  
+    const formData = new FormData(this);
+    const data = {}
+
+    formData.forEach((value,key) => {
+
+        if (!data[key]) {
+        data[key] = [];
+        }
+        data[key].push(value);
+
+    })
+  
+    try {
+      const response = await fetch('http://localhost:3000/missed-lectures/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      const contentType = response.headers.get('Content-Type') || '';
+  
+      if (response.ok) {
+        if (contentType.includes('application/json')) {
+          const result = await response.json();
+          alert('Form submitted successfully: ' + JSON.stringify(result));
+        } else {
+          const result = await response.text();
+          alert('Form submitted successfully: ' + result);
+        }
+      } else {
+        const errorText = await response.text();
+        alert(`Error submitting form: ${response.status} ${response.statusText}\n${errorText}`);
+      }
+    } catch (error) {
+      alert('An error occurred: ' + error.message);
+    }
+  });
+
+function loadDataOntoTimetable()
+{
+
+    
+
+}
