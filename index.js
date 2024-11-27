@@ -14,6 +14,8 @@ const addLectureButton = document.getElementById('add-lecture-button')
 const addActivityButton = document.getElementById('add-activity-button')
 const addMissedLectureButton = document.getElementById('add-missed-lecture-button')
 
+let activityCoordInfo = {}
+
 const questionsTitle = document.getElementById('form-title')
 
 let pageNumber = 0; // Track the current page
@@ -36,7 +38,9 @@ startButton.addEventListener('click', () => {
     confirmButton.style.display = 'block'
 
     pageNumber = 1;  // Set page number to 1 when moving to form
-    // DIMENSIONS 1920x709
+    // DIMENSIONS 1680x709 of activities
+    // START TOP: 202px
+    // START LEFT: 240px
 });
 
 // Confirm button logic
@@ -77,6 +81,7 @@ confirmButton.addEventListener('click', () => {
     
                 })
                 setUpTimeTableSlots();
+                generateActivityInfoFromAPI();
                 pageNumber = 3;
                 break;
             }
@@ -339,6 +344,14 @@ addActivityButton.addEventListener('click', () => {
     friday2.setAttribute('value', 'Friday');
     friday2.textContent = 'Friday';
 
+    const saturday2 = document.createElement('option');
+    saturday2.setAttribute('value', 'Saturday');
+    saturday2.textContent = 'Saturday';
+
+    const sunday2 = document.createElement('option');
+    sunday2.setAttribute('value', 'Sunday');
+    sunday2.textContent = 'Sunday';
+
     const everyday2 = document.createElement('option');
     everyday2.setAttribute('value', 'Everyday');
     everyday2.textContent = 'Everyday';
@@ -348,6 +361,8 @@ addActivityButton.addEventListener('click', () => {
     selectEndDay.appendChild(wednesday2);
     selectEndDay.appendChild(thursday2);
     selectEndDay.appendChild(friday2);
+    selectEndDay.appendChild(saturday2);
+    selectEndDay.appendChild(sunday2)
     selectEndDay.appendChild(everyday2);
 
     newActivityInput.appendChild(newActivityEndDay)
@@ -709,9 +724,75 @@ document.getElementById('first-form').addEventListener('submit', async function 
     }
   });
 
-function loadDataOntoTimetable()
-{
+async function generateActivityInfoFromAPI() {
 
-    
+  try {
+
+    const response = await fetch('http://localhost:3000/activitycoords/')
+
+    const contentType = response.headers.get('Content-Type') || '';
+  
+      if (response.ok) {
+        if (contentType.includes('application/json')) {
+          activityCoordInfo = await response.json();
+          //alert('Data retrieved successfully: ' + JSON.stringify(activityCoordInfo));
+        } else {
+          activityCoordInfo = await response.text();
+          //alert('Data retrieved successfully: ' + activityCoordInfo);
+        }
+        putActivitiesOntoDiagram()
+      } else {
+        const errorText = await response.text();
+        //alert(`Error retrieving from form: ${response.status} ${response.statusText}\n${errorText}`);
+      }
+  } catch(error) {
+
+    alert('An error occurred ' + error.message)
+
+  }
+
+}
+
+function stringToRgb(str) {
+
+  // Hash the string to a number
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+
+  // Map the hash to RGB values (ensure they're within 0-255)
+  const r = Math.abs(hash) % 256;
+  const g = Math.abs((hash >> 8) % 256);
+  const b = Math.abs((hash >> 16) % 256);
+
+  return `rgb(${r}, ${g}, ${b})`;
+
+}
+
+function putActivitiesOntoDiagram() {
+
+  activityCoordInfo["activities"].forEach(activity => {
+
+    const name = activity["name"]
+    const xPos = activity["properties"]["xPos"]
+    const yPos = activity["properties"]["yPos"]
+    const height = activity["properties"]["height"]
+
+    const newActivity = document.createElement('div')
+    newActivity.style.position = 'absolute'
+    newActivity.style.left = `${xPos}px`
+    newActivity.style.top = `${yPos}px`
+    newActivity.style.width = '240px'
+    newActivity.style.height = `${height}px`
+    newActivity.innerText = `${name}`
+    newActivity.style.display = 'block'
+
+    newActivity.style.backgroundColor = stringToRgb(name)
+
+    document.getElementById('added-activity-section').appendChild(newActivity)
+
+  })
 
 }
