@@ -776,9 +776,9 @@ function putActivitiesOntoDiagram() {
   activityCoordInfo["activities"].forEach(activity => {
 
     const name = activity["name"]
-    const xPos = activity["properties"]["xPos"]
-    const yPos = activity["properties"]["yPos"]
-    const height = activity["properties"]["height"]
+    const xPos = activity["xPosition"]
+    const yPos = activity["yPosition"]
+    const height = activity["height"]
 
     const newActivity = document.createElement('div')
     newActivity.style.position = 'absolute'
@@ -794,5 +794,38 @@ function putActivitiesOntoDiagram() {
     document.getElementById('added-activity-section').appendChild(newActivity)
 
   })
+  putCatchUpDaysOntoDiagram()
+
+}
+
+async function putCatchUpDaysOntoDiagram() {
+
+  let result = {}
+  try {
+
+    const response = await fetch('http://localhost:3000/catch-up-days/')
+
+    const contentType = response.headers.get('Content-Type') || '';
+  
+    if (response.ok) {
+        if (contentType.includes('application/json')) {
+            result = await response.json();
+
+        } else {
+            result = await response.text();
+
+        }
+   } else {
+      
+        const errorText = await response.text();
+
+   }
+
+  } catch(error) {
+
+    console.log(error.message)
+  }
+
+  document.getElementById('time-to-catch-up').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days.'
 
 }

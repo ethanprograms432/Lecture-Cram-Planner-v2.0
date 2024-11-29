@@ -4,10 +4,14 @@ const activityCoords = {
     activities: []
 }
 
+let lecturesBehind = 0
+let timeToCatchUp = ''
+
 const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 
 function handleFormData(formData) {
 
+    lecturesBehind = formData["num-lectures-behind"]
     const sleepTime = formData["sleep-time"]
     const wakeTime = formData["wake-time"]
 
@@ -30,7 +34,7 @@ function handleFormData(formData) {
 
     if(formData["dinner-preference"] === "Yes") {
 
-        let endTime = addMinutesToTime(formData["dinner-time"],20)
+        let endTime = addMinutesToTime(formData["dinner-time"],30)
         handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
         
     }
@@ -49,8 +53,8 @@ function handleLectureData(lectureData) {
 
         } else {
 
-            let xPos,yPos,height = getActivityCoordinates(lectureData["lecture-start-time"][i],endTime,lectureData["lecture-day"][i])
-            postActivityToAPI(lectureData["lecture-name"][i],xPos,yPos,height)
+            let info = getActivityCoordinates(lectureData["lecture-start-time"][i],endTime,lectureData["lecture-day"][i])
+            postActivityToAPI(lectureData["lecture-name"][i],info[0],info[1],info[2])
 
         }
 
@@ -63,19 +67,190 @@ function handleMissedLectureData(missedLectureData) {
     for (let i = 0; i < missedLectureData["missed-lecture-name"].length; i++) {
 
         let endTime = addMinutesToTime(missedLectureData["missed-lecture-start-time"][i],50)
+        let missedLectureName = missedLectureData["missed-lecture-name"][i]
+        let info = getActivityCoordinates(missedLectureData["missed-lecture-start-time"][i],endTime,missedLectureData["missed-lecture-day"][i])
 
-        if(missedLectureData["missed-lecture-day"][i] === "Everyday") {
-    
-            handleEveryDayData(missedLectureData["missed-lecture-name"][i],missedLectureData["missed-lecture-start-time"][i],endTime,false)
+        let initHeight = info[2]
+
+        if(missedLectureData["missed-lecture-day"][i] !== 'Everyday') {
+
+            let coords = findATimeSlot(info[0],info[1],info[2])
+            let x = coords[0]
+            let y = coords[1]
+
+
+            if(x === -1 && y === -1) {
+
+                console.log('One lecture could not be filled')
+            } else {
+
+                postActivityToAPI(missedLectureName,x,y,initHeight)
+            }
+        } else {
+
+            for (let j = 0; j < days.length - 2; j++) {
+
+                info = getActivityCoordinates(missedLectureData["missed-lecture-start-time"][i],endTime,days[j])
+                let coords = findATimeSlot(info[0],info[1],info[2])
+                let x = coords[0]
+                let y = coords[1]
+
+
+                if(x === -1 && y === -1) {
+
+                    console.log('One lecture could not be filled')
+                } else {
+
+                    postActivityToAPI(missedLectureName,x,y,initHeight)
+                }
+
+            }
+
+        }
+        
+    }
+    fillInLecturesToCatchUp()
+
+}
+
+async function fillInLecturesToCatchUp() {
+
+    let ableToBeFilled = true
+    let lecturesFilled = 0
+
+    while(lecturesBehind > 0 && ableToBeFilled === true) {
+
+        let info = getActivityCoordinates('00:00','00:50','Monday')
+        let height = info[2]
+        let coords = findATimeSlot(info[0],info[1],info[2])
+
+        if(coords[0] !== -1 && coords[1] !== -1) {
+
+            postActivityToAPI('Lecture Catch Up',coords[0],coords[1],height)
+            lecturesBehind -= 1;
+            lecturesFilled++;
 
         } else {
 
-            let xPos,yPos,height = getActivityCoordinates(missedLectureData["missed-lecture-start-time"][i],endTime,missedLectureData["missed-lecture-day"][i])
-            postActivityToAPI(missedLectureData["missed-lecture-name"][i],xPos,yPos,height)
+            ableToBeFilled = false;
 
         }
 
     }
+
+    const daysItWillTake = Math.ceil(7*((lecturesFilled+lecturesBehind)/lecturesFilled));
+
+    //console.log("It will take " + daysItWillTake + " days to catch up if you start today.")
+
+    try {
+
+        const response = await fetch('http://localhost:3000/catch-up-days',{
+
+            method: 'POST',
+            headers: {
+
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({catchUpDays: daysItWillTake})
+        })
+
+        const contentType = response.headers.get('Content-Type') || '';
+  
+        if (response.ok) {
+            if (contentType.includes('application/json')) {
+            const result = await response.json();
+
+            } else {
+            const result = await response.text();
+
+            }
+        } else {
+            const errorText = await response.text();
+
+        }
+
+    } catch(error) {
+
+        console.log(error.message)
+    }
+
+}
+
+
+function findATimeSlot(startX,startY,height) {
+
+    for (let j = startY; j < 825; j += 1) {
+
+        let valid = isValidSlot(startX,j,height)
+        if(valid === true) { return [startX,j]}
+
+    }
+
+    for (let i = startX + 240; i < 1681; i += 240) {
+
+        for (let j = 98.25; j < 825; j += 1) {
+
+            let valid = isValidSlot(i,j,height)
+            if(valid === true) { return [i,j]}
+        }
+ 
+    }
+
+    return [-1,-1]
+
+}
+
+function isValidSlot(x,y,height) {
+
+    let extendsDays = false
+
+    let x3,x4,y3,y4 = 0
+
+    let x2 = x + 240
+
+    let y2 = y + height
+
+    if(y2 > 825) {
+
+        y2 = 824.25
+        extendsDays = true
+
+        x3 = x2
+        x4 = x3 + 240
+
+        y3 = 98.25
+        y4 = (y + height) - 726
+    }
+
+    for (let i = 0; i < activityCoords["activities"].length; i++) {
+
+        const startX = activityCoords["activities"][i]["xPosition"]
+        const startY = activityCoords["activities"][i]["yPosition"]
+        const height = activityCoords["activities"][i]["height"]
+
+        const endX = startX + 240
+        const endY = startY + height
+
+        if(!(startX === x && endX === x2 && ((y <= endY && y >= startY) || (y2 <= endY && y2 >= startY)))) {
+
+            if(extendsDays === true) {
+
+                if(startX === x3 && endX === x4 && ((y3 <= endY && y3 >= startY) || (y4 <= endY && y4 >= startY))) {
+                    
+                    return false;
+                }
+
+            }
+
+        } else {
+
+            return false;
+        }
+
+
+    }
+
+    return true;
 
 }
 
@@ -99,15 +274,15 @@ function handleActivityData(activityData) {
 
             } else {
 
-                let xPos,yPos,height = getActivityCoordinates(startTime,endTime,startDay)
-                postActivityToAPI(activityName,xPos,yPos,height)
+                let info = getActivityCoordinates(startTime,endTime,startDay)
+                postActivityToAPI(activityName,info[0],info[1],info[2])
 
             }
 
         } else {
 
-            let xPos,yPos,height = getActivityCoordinates(startTime,'24:00',startDay)
-            postActivityToAPI(activityName,xPos,yPos,height)
+            let info = getActivityCoordinates(startTime,'24:00',startDay)
+            postActivityToAPI(activityName,info[0],info[1],info[2])
 
             let currIndex = days.indexOf(startDay)
             currIndex++;
@@ -127,13 +302,13 @@ function handleActivityData(activityData) {
                 if(currIndex < 7) {
 
                     startDay = days[currIndex]
-                    xPos,yPos,height = getActivityCoordinates('00:00','24:00',startDay)
-                    postActivityToAPI(activityName,xPos,yPos,height)
+                    info = getActivityCoordinates('00:00','24:00',startDay)
+                    postActivityToAPI(activityName,info[0],info[1],info[2])
                 } else {
 
                     startDay = days[0]
-                    xPos,yPos,height = getActivityCoordinates('00:00','24:00',startDay)
-                    postActivityToAPI(activityName,xPos,yPos,height)
+                    info = getActivityCoordinates('00:00','24:00',startDay)
+                    postActivityToAPI(activityName,info[0],info[1],info[2])
                     currIndex = 0
 
                 }
@@ -141,8 +316,8 @@ function handleActivityData(activityData) {
 
             }
 
-            xPos,yPos,height = getActivityCoordinates('00:00',endTime,endDay)
-            postActivityToAPI(activityName,xPos,yPos,height)
+            info = getActivityCoordinates('00:00',endTime,endDay)
+            postActivityToAPI(activityName,info[0],info[1],info[2])
 
         }
 
@@ -173,23 +348,23 @@ function addMinutesToTime(timeString,minutesToAdd) {
 
 function handleEveryDayData(activityName,startTime,endTime,weekend) {
 
-    let xPos,yPos,height = getActivityCoordinates(startTime,endTime,'Monday')
-    postActivityToAPI(activityName,xPos,yPos,height)
-    xPos,yPos,height = getActivityCoordinates(startTime,endTime,'Tuesday')
-    postActivityToAPI(activityName,xPos,yPos,height)
-    xPos,yPos,height = getActivityCoordinates(startTime,endTime,'Wednesday')
-    postActivityToAPI(activityName,xPos,yPos,height)
-    xPos,yPos,height = getActivityCoordinates(startTime,endTime,'Thursday')
-    postActivityToAPI(activityName,xPos,yPos,height)
-    xPos,yPos,height = getActivityCoordinates(startTime,endTime,'Friday')
-    postActivityToAPI(activityName,xPos,yPos,height)
+    let info = getActivityCoordinates(startTime,endTime,'Monday')
+    postActivityToAPI(activityName,info[0],info[1],info[2])
+    info = getActivityCoordinates(startTime,endTime,'Tuesday')
+    postActivityToAPI(activityName,info[0],info[1],info[2])
+    info = getActivityCoordinates(startTime,endTime,'Wednesday')
+    postActivityToAPI(activityName,info[0],info[1],info[2])
+    info = getActivityCoordinates(startTime,endTime,'Thursday')
+    postActivityToAPI(activityName,info[0],info[1],info[2])
+    info = getActivityCoordinates(startTime,endTime,'Friday')
+    postActivityToAPI(activityName,info[0],info[1],info[2])
 
     if(weekend === true) {
 
-        xPos,yPos,height = getActivityCoordinates(startTime,endTime,'Saturday')
-        postActivityToAPI(activityName,xPos,yPos,height)
-        xPos,yPos,height = getActivityCoordinates(startTime,endTime,'Sunday')
-        postActivityToAPI(activityName,xPos,yPos,height)
+        info = getActivityCoordinates(startTime,endTime,'Saturday')
+        postActivityToAPI(activityName,info[0],info[1],info[2])
+        info = getActivityCoordinates(startTime,endTime,'Sunday')
+        postActivityToAPI(activityName,info[0],info[1],info[2])
 
     }
 
@@ -249,7 +424,7 @@ function getActivityCoordinates(startTime,endTime,day) {
 
     const height = yPos2 - yPos
 
-    return { xPos, yPos, height }
+    return [xPos, yPos, height]
 }
 
 async function postActivityToAPI(activityName,xPos,yPos,elementHeight) {
@@ -259,7 +434,7 @@ async function postActivityToAPI(activityName,xPos,yPos,elementHeight) {
         name: activityName,
         xPosition: xPos,
         yPosition: yPos,
-        properties: elementHeight
+        height: elementHeight
 
     }
 

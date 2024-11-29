@@ -10,6 +10,7 @@ let lectures = {}
 let activities = {}
 let missedLectures = {}
 let activityCoords = {}
+let catchUpDays = {}
 
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true}))
@@ -47,6 +48,12 @@ app.post('/missed-lectures/',(req,res) => {
 
 })
 
+app.post('/catch-up-days/',(req,res) => {
+
+    catchUpDays = req.body
+
+})
+
 app.post('/activitycoords/',(req,res) => {
 
     activityCoords = req.body
@@ -58,6 +65,12 @@ app.post('/activitycoords/',(req,res) => {
 app.get('/activitycoords/',(req,res) => {
 
     res.send(activityCoords)
+
+})
+
+app.get('/catch-up-days/',(req,res) => {
+
+    res.send(catchUpDays)
 
 })
 
