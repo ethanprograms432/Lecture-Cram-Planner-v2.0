@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const path = require('path')
 const { handleFormData, handleLectureData, handleActivityData, handleMissedLectureData } = require('./activities.js')
 const cors = require('cors')
 const app = express()
@@ -61,6 +62,13 @@ app.post('/activitycoords/',(req,res) => {
 })
 
 /* GET REQUESTS */
+
+app.get('/',(req,res) => {
+
+    const filePath = path.join("index.html")
+    res.send(filePath)
+
+})
 
 app.get('/activitycoords/',(req,res) => {
 
