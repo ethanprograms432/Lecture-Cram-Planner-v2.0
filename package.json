@@ -2,9 +2,9 @@
   "name": "lecture-cram-planner-v2.0",
   "version": "1.0.0",
   "description": "A program designed to help you catch up on lectures",
-  "main": "express.js",
+  "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node express.js"
   },
   "repository": {
     "type": "git",
