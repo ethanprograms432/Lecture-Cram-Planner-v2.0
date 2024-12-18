@@ -15,9 +15,14 @@ function handleFormData(formData) {
     const sleepTime = formData["sleep-time"]
     const wakeTime = formData["wake-time"]
 
-    handleEveryDayData('Sleep',sleepTime,'24:00',true)
-    handleEveryDayData('Sleep','00:00',wakeTime,true)
-    
+    if(sleepTime.substring(0,sleepTime.indexOf(":")) < wakeTime.substring(0,wakeTime.indexOf(":"))) {
+
+        handleEveryDayData('Sleep',sleepTime,wakeTime,true)
+    } else {
+
+        handleEveryDayData('Sleep',sleepTime,'24:00',true)
+        handleEveryDayData('Sleep','00:00',wakeTime,true)
+    }
 
     if(formData["breakfast-preference"] === "Yes") {
 
@@ -126,9 +131,21 @@ async function fillInLecturesToCatchUp() {
 
         if(coords[0] !== -1 && coords[1] !== -1) {
 
-            postActivityToAPI('Lecture Catch Up',coords[0],coords[1],height)
-            lecturesBehind -= 1;
-            lecturesFilled++;
+            if((coords[1] + height) < 825) {
+
+                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],height)
+                lecturesBehind -= 1;
+                lecturesFilled++;
+
+            } else {
+
+                let secondElementHeight = height - (825 - coords[1])
+                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],825)
+                postActivityToAPI('Lecture Catch Up',coords[0] + 240,98.25 + secondElementHeight)
+                lecturesBehind -= 1;
+                lecturesFilled++;
+
+            }
 
         } else {
 
@@ -231,11 +248,11 @@ function isValidSlot(x,y,height) {
         const endX = startX + 240
         const endY = startY + height
 
-        if(!(startX === x && endX === x2 && ((y <= endY && y >= startY) || (y2 <= endY && y2 >= startY)))) {
+        if(!(startX === x && endX === x2 && ((y <= endY && y >= startY) || (y2 <= endY && y2 >= startY) || (y2 > endY && y < startY)))) {
 
             if(extendsDays === true) {
 
-                if(startX === x3 && endX === x4 && ((y3 <= endY && y3 >= startY) || (y4 <= endY && y4 >= startY))) {
+                if(startX === x3 && endX === x4 && ((y3 <= endY && y3 >= startY) || (y4 <= endY && y4 >= startY) || (y4 > endY && y3 < startY))) {
                     
                     return false;
                 }
