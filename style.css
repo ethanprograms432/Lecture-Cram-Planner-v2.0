@@ -190,6 +190,13 @@ body {
 
 }
 
+#lecture-form-info {
+
+    border: 1px solid white;
+    background-color: white;
+
+}
+
 /* DIAGRAM */
 
 #diagram-title {
