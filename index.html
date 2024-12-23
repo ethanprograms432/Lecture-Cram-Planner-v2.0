@@ -15,8 +15,8 @@
 
             <h1 id="lecture-cram-planner-title">Lecture Cram Planner</h1>
             <button id="startbutton">Let's Begin!</button>
-            <p id="mission-statement">A program designed to help you catch up with lectures</p>
-            <p id="author">Made by Ethan James</p>
+            <p id="mission-statement" style="width: 100vw; margin-left: -15px;">A program designed to help you catch up with lectures</p>
+            <p id="author" style="width: 100vw; margin-left: -15px;">Made by Ethan James</p>
 
         </div>
 
@@ -24,8 +24,7 @@
 
         <div class="questions1">
 
-            <form id="first-form">
-
+            <form id="first-form" style="background-color: rgba(0,255,255,0.3); width: 100vw; margin-left: -30px; margin-top: -12px">
                 <div id="lectures-behind">
 
                     <label for="num-lectures-behind">How many lectures are you currently behind on?</label>
@@ -44,7 +43,7 @@
                 <div id="free-time">
 
                     <label for="free-time-hours">How much free time would you like per day (hours)?</label>
-                    <input type="number" id="free-time-hours" name="free-time-hours">
+                    <input type="number" id="free-time-hours" name="free-time-hours" required>
                     <br>
                     
                 </div>
@@ -94,23 +93,30 @@
 
                 </div>
 
+                <br>
                 <button type="submit" id="form-submit-button">Submit</button>
+                <br>
+                <br>
 
             </form>
 
             <br>
+            <br>
 
-            <div id="lectures">
+            <div id="lectures" style="background-color: rgba(255,255,0,0.3); width: 100vw; margin-left: -25px; margin-top: -45px">
 
+                <br>
                 <p id="lecture-form-info">Here you enter the lectures you don't miss during the week</p>
                 <p>All lectures will be assumed as 50 minutes long</p>
 
                 <button id="add-lecture-button">Add A Lecture</button>
-                <p id="lecture-heading-info">Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
+                <p id="lecture-heading-info" style="font-size: 15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
 
                 <form id="added-lecture-form">
 
+                    <br>
                     <button type="submit" id="lectures-submit-button">Submit</button>
+                    <br>
 
                 </form>
 
@@ -119,14 +125,14 @@
         
         </div>
 
-        <div class="questions2">
+        <div class="questions2" style="background-color: rgba(159,226,191,0.3); top: 91px; width: 100vw; position: absolute;">
 
                 <p id="activity-entry-guidance">Here you enter all extra activities</p>
 
                 <div id="activities">
 
                     <button id="add-activity-button">Add An Activity</button>
-                    <p id="activity-header-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Activity Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                    <p id="activity-header-info">&nbsp;Activity Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                     <form id="activity-form">
 
                         <button type="submit" id="activities-submit-button">Submit</button>
@@ -135,15 +141,21 @@
 
                 </div>
 
+                <br>
+                <br>
+                
                 <p id="missed-lecture-entry-guidance">Here is where you would enter lectures that you regularly miss during the week</p>
 
+                
                 <div id="missed-lectures">
 
                     <button id="add-missed-lecture-button">Add A Missed Lecture</button>
-                    <p id="lecture-heading-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
+                    <p id="lecture-heading-info">Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
                     <form id="missed-lecture-form">
 
+                        <br>
                         <button type="submit" id="missed-lecture-submit-button">Submit</button>
+                        <br>
 
                     </form>
 

@@ -251,10 +251,21 @@ async function fillInLecturesToCatchUp() {
             } else {
 
                 let secondElementHeight = height - (825 - coords[1])
-                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],825)
-                postActivityToAPI('Lecture Catch Up',coords[0] + 240,98.25 + secondElementHeight)
-                lecturesBehind -= 1;
-                lecturesFilled++;
+                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],(825 - coords[1]))
+
+                if((coords[0] + 240) <= 1680) {
+
+                    postActivityToAPI('Lecture Catch Up',coords[0] + 240,98.25,secondElementHeight)
+                    lecturesBehind -= 1;
+                    lecturesFilled++;
+
+                } else {
+
+                    postActivityToAPI('Lecture Catch Up',240,98.25,secondElementHeight)
+                    lecturesBehind -= 1;
+                    lecturesFilled++;
+
+                }
 
             }
 

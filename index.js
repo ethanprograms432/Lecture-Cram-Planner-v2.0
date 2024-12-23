@@ -152,6 +152,7 @@ addLectureButton.addEventListener('click', () => {
     const newLectureInput = document.createElement('div')
     lectures.prepend(newLectureInput)
     newLectureInput.className = "added-lecture"
+    newLectureInput.style.marginLeft = "80px";
     newLectureInput.id = "lecture" + addedLectureNum
 
     // DOM elements representing lecture content information
@@ -168,6 +169,8 @@ addLectureButton.addEventListener('click', () => {
     nameInput.placeholder = 'Lecture Name'
     nameInput.setAttribute('name','lecture-name')
     nameInput.id = 'lecture-name'
+    nameInput.required = true;
+    nameInput.style.width = "100px";
     newLectureInput.appendChild(nameInput)
 
     const startTimeInput = document.createElement('input')
@@ -175,6 +178,8 @@ addLectureButton.addEventListener('click', () => {
     startTimeInput.placeholder = 'Start Time'
     startTimeInput.setAttribute('name','lecture-start-time')
     startTimeInput.id = 'lecture-start-time'
+    startTimeInput.required = true;
+    startTimeInput.style.width = "100px";
     newLectureInput.appendChild(startTimeInput)
 
     /* LECTURE DAY */
@@ -185,6 +190,8 @@ addLectureButton.addEventListener('click', () => {
     const select2 = document.createElement('select');
     select2.setAttribute('name', 'lecture-day');
     select2.setAttribute('id', 'lecture-day');
+    select2.style.width = "100px";
+    select2.required = true;
 
     // Create the option elements
     const monday = document.createElement('option');
@@ -220,6 +227,7 @@ addLectureButton.addEventListener('click', () => {
     select2.appendChild(friday);
     select2.appendChild(everyday);
 
+    document.getElementById('lectures-submit-button').style.marginTop = "3px";
 
     newLectureInput.appendChild(lectureDay)
     newLectureInput.appendChild(select2)
@@ -246,6 +254,7 @@ addActivityButton.addEventListener('click', () => {
     nameInput.type = 'text'
     nameInput.placeholder = 'Activity Name'
     nameInput.setAttribute('name','activity-name')
+    nameInput.required = true;
     nameInput.id = 'activity-name'
     newActivityInput.appendChild(nameInput)
 
@@ -256,6 +265,7 @@ addActivityButton.addEventListener('click', () => {
 
     const selectStartDay = document.createElement('select')
     selectStartDay.setAttribute('name','activity-start-day')
+    selectStartDay.required = true;
     selectStartDay.setAttribute('id','activity-start-day')
 
     const monday = document.createElement('option');
@@ -311,6 +321,7 @@ addActivityButton.addEventListener('click', () => {
     const startTimeInput = document.createElement('input')
     startTimeInput.type = 'time'
     startTimeInput.placeholder = 'Start Time'
+    startTimeInput.required = true;
     startTimeInput.setAttribute('name','activity-start-time')
     startTimeInput.id = 'activity-start-time'
     newActivityInput.appendChild(startTimeInput)
@@ -323,6 +334,7 @@ addActivityButton.addEventListener('click', () => {
     const selectEndDay = document.createElement('select')
     selectEndDay.setAttribute('name','activity-end-day')
     selectEndDay.setAttribute('id','activity-end-day')
+    selectEndDay.required = true;
 
     const monday2 = document.createElement('option');
     monday2.setAttribute('value', 'Monday');
@@ -375,6 +387,7 @@ addActivityButton.addEventListener('click', () => {
     newActivityInput.appendChild(newActivityStartTime)
 
     const endTimeInput = document.createElement('input')
+    endTimeInput.required = true;
     endTimeInput.type = 'time'
     endTimeInput.placeholder = 'End Time'
     endTimeInput.setAttribute('name','activity-end-time')
@@ -392,6 +405,7 @@ addMissedLectureButton.addEventListener('click', () => {
     const newLectureInput = document.createElement('div')
     missedLectures.prepend(newLectureInput)
     newLectureInput.className = "added-missed-lecture"
+    newLectureInput.style.marginLeft = "-80px";
     newLectureInput.id = "missed-lecture" + addedMissedLectureNum
 
     // DOM elements representing lecture content information
@@ -406,6 +420,7 @@ addMissedLectureButton.addEventListener('click', () => {
     const nameInput = document.createElement('input')
     nameInput.type = 'text'
     nameInput.placeholder = 'Lecture Name'
+    nameInput.required = true;
     nameInput.setAttribute('name','missed-lecture-name')
     nameInput.id = 'missed-lecture-name'
     newLectureInput.appendChild(nameInput)
@@ -413,6 +428,7 @@ addMissedLectureButton.addEventListener('click', () => {
     const startTimeInput = document.createElement('input')
     startTimeInput.type = 'time'
     startTimeInput.placeholder = 'Start Time'
+    startTimeInput.required = true;
     startTimeInput.setAttribute('name','missed-lecture-start-time')
     startTimeInput.id = 'missed-lecture-start-time'
     newLectureInput.appendChild(startTimeInput)
@@ -425,6 +441,7 @@ addMissedLectureButton.addEventListener('click', () => {
     const select2 = document.createElement('select');
     select2.setAttribute('name', 'missed-lecture-day');
     select2.setAttribute('id', 'missed-lecture-day');
+    select2.required = true;
 
     // Create the option elements
     const monday = document.createElement('option');
@@ -558,6 +575,7 @@ function setUpTimeTableSlots()
 }
 
 document.getElementById('first-form').addEventListener('submit', async function (event) {
+
     formsSubmitted += 1
     event.preventDefault();
   
@@ -578,10 +596,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
       if (response.ok) {
         if (contentType.includes('application/json')) {
           const result = await response.json();
-          alert('Form submitted successfully: ' + JSON.stringify(result));
+          //alert('Form submitted successfully: ' + JSON.stringify(result));
         } else {
           const result = await response.text();
-          alert('Form submitted successfully: ' + result);
+          //alert('Form submitted successfully: ' + result);
         }
       } else {
         const errorText = await response.text();
@@ -622,10 +640,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
       if (response.ok) {
         if (contentType.includes('application/json')) {
           const result = await response.json();
-          alert('Form submitted successfully: ' + JSON.stringify(result));
+          //alert('Form submitted successfully: ' + JSON.stringify(result));
         } else {
           const result = await response.text();
-          alert('Form submitted successfully: ' + result);
+          //alert('Form submitted successfully: ' + result);
         }
       } else {
         const errorText = await response.text();
@@ -666,10 +684,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
       if (response.ok) {
         if (contentType.includes('application/json')) {
           const result = await response.json();
-          alert('Form submitted successfully: ' + JSON.stringify(result));
+          //alert('Form submitted successfully: ' + JSON.stringify(result));
         } else {
           const result = await response.text();
-          alert('Form submitted successfully: ' + result);
+          //alert('Form submitted successfully: ' + result);
         }
       } else {
         const errorText = await response.text();
@@ -710,10 +728,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
       if (response.ok) {
         if (contentType.includes('application/json')) {
           const result = await response.json();
-          alert('Form submitted successfully: ' + JSON.stringify(result));
+          //alert('Form submitted successfully: ' + JSON.stringify(result));
         } else {
           const result = await response.text();
-          alert('Form submitted successfully: ' + result);
+          //alert('Form submitted successfully: ' + result);
         }
       } else {
         const errorText = await response.text();
@@ -780,6 +798,7 @@ function putActivitiesOntoDiagram() {
     const yPos = activity["yPosition"]
     const height = activity["height"]
 
+
     const newActivity = document.createElement('div')
     newActivity.style.position = 'absolute'
     newActivity.style.left = `${xPos}px`
@@ -788,6 +807,11 @@ function putActivitiesOntoDiagram() {
     newActivity.style.height = `${height}px`
     newActivity.innerText = `${name}`
     newActivity.style.display = 'block'
+
+    if(height < 15) {
+
+      newActivity.style.fontSize = "11px";
+    }
 
     newActivity.style.backgroundColor = stringToRgb(name)
 
