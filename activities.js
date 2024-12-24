@@ -50,54 +50,41 @@ function handleFormData(formData) {
 
 function handleLectureData(lectureData) {
 
-    for (let i = 0; i < lectureData["lecture-name"].length; i++) {
+    if(Object.keys(lectureData).length > 0) {
 
-        let endTime = addMinutesToTime(lectureData["lecture-start-time"][i],50)
+        for (let i = 0; i < lectureData["lecture-name"].length; i++) {
 
-        if(lectureData["lecture-day"][i] === "Everyday") {
-    
-            handleEveryDayData(lectureData["lecture-name"][i],lectureData["lecture-start-time"][i],endTime,false)
+            let endTime = addMinutesToTime(lectureData["lecture-start-time"][i],50)
 
-        } else {
+            if(lectureData["lecture-day"][i] === "Everyday") {
+        
+                handleEveryDayData(lectureData["lecture-name"][i],lectureData["lecture-start-time"][i],endTime,false)
 
-            let info = getActivityCoordinates(lectureData["lecture-start-time"][i],endTime,lectureData["lecture-day"][i])
-            postActivityToAPI(lectureData["lecture-name"][i],info[0],info[1],info[2])
+            } else {
+
+                let info = getActivityCoordinates(lectureData["lecture-start-time"][i],endTime,lectureData["lecture-day"][i])
+                postActivityToAPI(lectureData["lecture-name"][i],info[0],info[1],info[2])
+
+            }
 
         }
-
     }
-
 }
 
 function handleMissedLectureData(missedLectureData) {
 
-    for (let i = 0; i < missedLectureData["missed-lecture-name"].length; i++) {
+    if(Object.keys(missedLectureData).length > 0) {
 
-        let endTime = addMinutesToTime(missedLectureData["missed-lecture-start-time"][i],50)
-        let missedLectureName = missedLectureData["missed-lecture-name"][i]
-        let info = getActivityCoordinates(missedLectureData["missed-lecture-start-time"][i],endTime,missedLectureData["missed-lecture-day"][i])
+        for (let i = 0; i < missedLectureData["missed-lecture-name"].length; i++) {
 
-        let initHeight = info[2]
+            let endTime = addMinutesToTime(missedLectureData["missed-lecture-start-time"][i],50)
+            let missedLectureName = missedLectureData["missed-lecture-name"][i]
+            let info = getActivityCoordinates(missedLectureData["missed-lecture-start-time"][i],endTime,missedLectureData["missed-lecture-day"][i])
 
-        if(missedLectureData["missed-lecture-day"][i] !== 'Everyday') {
+            let initHeight = info[2]
 
-            let coords = findATimeSlot(info[0],info[1],info[2])
-            let x = coords[0]
-            let y = coords[1]
+            if(missedLectureData["missed-lecture-day"][i] !== 'Everyday') {
 
-
-            if(x === -1 && y === -1) {
-
-                console.log('One lecture could not be filled')
-            } else {
-
-                postActivityToAPI(missedLectureName,x,y,initHeight)
-            }
-        } else {
-
-            for (let j = 0; j < days.length - 2; j++) {
-
-                info = getActivityCoordinates(missedLectureData["missed-lecture-start-time"][i],endTime,days[j])
                 let coords = findATimeSlot(info[0],info[1],info[2])
                 let x = coords[0]
                 let y = coords[1]
@@ -110,11 +97,29 @@ function handleMissedLectureData(missedLectureData) {
 
                     postActivityToAPI(missedLectureName,x,y,initHeight)
                 }
+            } else {
+
+                for (let j = 0; j < days.length - 2; j++) {
+
+                    info = getActivityCoordinates(missedLectureData["missed-lecture-start-time"][i],endTime,days[j])
+                    let coords = findATimeSlot(info[0],info[1],info[2])
+                    let x = coords[0]
+                    let y = coords[1]
+
+
+                    if(x === -1 && y === -1) {
+
+                        console.log('One lecture could not be filled')
+                    } else {
+
+                        postActivityToAPI(missedLectureName,x,y,initHeight)
+                    }
+
+                }
 
             }
-
+            
         }
-        
     }
     fillInFreeTime()
     fillInLecturesToCatchUp()
@@ -395,73 +400,75 @@ function isValidSlot(x,y,height) {
 
 function handleActivityData(activityData) {
 
-    for (let i = 0; i < activityData["activity-name"].length; i++) {
+    if(Object.keys(activityData).length > 0) {
 
-        const activityName = activityData["activity-name"][i]
-        let startDay = activityData["activity-start-day"][i]
-        const startTime = activityData["activity-start-time"][i]
-        const endDay = activityData["activity-end-day"][i]
-        const endTime = activityData["activity-end-time"][i]
+        for (let i = 0; i < activityData["activity-name"].length; i++) {
 
-        if(startDay === endDay) {
+            const activityName = activityData["activity-name"][i]
+            let startDay = activityData["activity-start-day"][i]
+            const startTime = activityData["activity-start-time"][i]
+            const endDay = activityData["activity-end-day"][i]
+            const endTime = activityData["activity-end-time"][i]
 
-            // FOR LATER, INCLUDE THE CASE WHERE START TIME IS AFTER END TIME
+            if(startDay === endDay) {
 
-            if(startDay === 'Everyday') {
+                // FOR LATER, INCLUDE THE CASE WHERE START TIME IS AFTER END TIME
 
-                handleEveryDayData(activityName,startTime,endTime,true)
+                if(startDay === 'Everyday') {
+
+                    handleEveryDayData(activityName,startTime,endTime,true)
+
+                } else {
+
+                    let info = getActivityCoordinates(startTime,endTime,startDay)
+                    postActivityToAPI(activityName,info[0],info[1],info[2])
+
+                }
 
             } else {
 
-                let info = getActivityCoordinates(startTime,endTime,startDay)
+                let info = getActivityCoordinates(startTime,'24:00',startDay)
+                postActivityToAPI(activityName,info[0],info[1],info[2])
+
+                let currIndex = days.indexOf(startDay)
+                currIndex++;
+                if(currIndex < 7) {
+
+                    startDay = days[currIndex]
+
+                } else {
+
+                    startDay = days[0]
+                    currIndex = 0
+
+                }
+                
+                while(currIndex !== days.indexOf(endDay)) {
+
+                    if(currIndex < 7) {
+
+                        startDay = days[currIndex]
+                        info = getActivityCoordinates('00:00','24:00',startDay)
+                        postActivityToAPI(activityName,info[0],info[1],info[2])
+                    } else {
+
+                        startDay = days[0]
+                        info = getActivityCoordinates('00:00','24:00',startDay)
+                        postActivityToAPI(activityName,info[0],info[1],info[2])
+                        currIndex = 0
+
+                    }
+                    currIndex++;
+
+                }
+
+                info = getActivityCoordinates('00:00',endTime,endDay)
                 postActivityToAPI(activityName,info[0],info[1],info[2])
 
             }
 
-        } else {
-
-            let info = getActivityCoordinates(startTime,'24:00',startDay)
-            postActivityToAPI(activityName,info[0],info[1],info[2])
-
-            let currIndex = days.indexOf(startDay)
-            currIndex++;
-            if(currIndex < 7) {
-
-                startDay = days[currIndex]
-
-            } else {
-
-                startDay = days[0]
-                currIndex = 0
-
-            }
-            
-            while(currIndex !== days.indexOf(endDay)) {
-
-                if(currIndex < 7) {
-
-                    startDay = days[currIndex]
-                    info = getActivityCoordinates('00:00','24:00',startDay)
-                    postActivityToAPI(activityName,info[0],info[1],info[2])
-                } else {
-
-                    startDay = days[0]
-                    info = getActivityCoordinates('00:00','24:00',startDay)
-                    postActivityToAPI(activityName,info[0],info[1],info[2])
-                    currIndex = 0
-
-                }
-                currIndex++;
-
-            }
-
-            info = getActivityCoordinates('00:00',endTime,endDay)
-            postActivityToAPI(activityName,info[0],info[1],info[2])
-
         }
-
     }
-
 }
 
 function addMinutesToTime(timeString,minutesToAdd) {

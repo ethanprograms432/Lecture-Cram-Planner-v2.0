@@ -229,8 +229,18 @@ addLectureButton.addEventListener('click', () => {
 
     document.getElementById('lectures-submit-button').style.marginTop = "3px";
 
+    const removeLecture = document.createElement('button')
+    removeLecture.style.backgroundColor = 'red';
+    removeLecture.style.color = 'white';
+    removeLecture.innerText = 'Delete';
+    removeLecture.onclick = function() {
+
+      newLectureInput.remove()
+    }
+
     newLectureInput.appendChild(lectureDay)
     newLectureInput.appendChild(select2)
+    newLectureInput.appendChild(removeLecture)
 
 })
 
@@ -394,6 +404,18 @@ addActivityButton.addEventListener('click', () => {
     endTimeInput.id = 'activity-end-time'
     newActivityInput.appendChild(endTimeInput)
 
+    const removeActivity = document.createElement('button')
+    removeActivity.style.backgroundColor = 'red';
+    removeActivity.style.color = 'white';
+    removeActivity.innerText = 'Delete';
+    removeActivity.onclick = function() {
+
+      newActivityInput.remove()
+
+    }
+
+    newActivityInput.appendChild(removeActivity);
+
 
 })
 
@@ -477,9 +499,18 @@ addMissedLectureButton.addEventListener('click', () => {
     select2.appendChild(friday);
     select2.appendChild(everyday);
 
+    const removeMissedLecture = document.createElement('button')
+    removeMissedLecture.style.backgroundColor = 'red';
+    removeMissedLecture.style.color = 'white';
+    removeMissedLecture.innerText = 'Delete';
 
+    removeMissedLecture.onclick = function() {
+
+      newLectureInput.remove()
+    }
     newLectureInput.appendChild(lectureDay)
     newLectureInput.appendChild(select2)
+    newLectureInput.appendChild(removeMissedLecture)
 
 
 });
