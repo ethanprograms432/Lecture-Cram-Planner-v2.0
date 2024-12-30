@@ -881,6 +881,13 @@ async function putCatchUpDaysOntoDiagram() {
     console.log(error.message)
   }
 
-  document.getElementById('time-to-catch-up').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days.'
+  if(result["catchUpDays"] > 7) {
+    
+    document.getElementById('time-to-catch-up').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days.'
+
+  } else {
+
+    document.getElementById('time-to-catch-up').innerText = "You'll be caught up in under a week!"
+  }
 
 }

@@ -137,98 +137,84 @@ function fillInFreeTime()
             switch(i) {
 
                 case(0):
-
-                    let info = getActivityCoordinates('00:00',endTime,"Monday")
-                    let height = info[2]
-                    let coords = findATimeSlot(info[0],info[1],info[2])
-
-                    if(coords[0] !== -1 && coords[1] !== -1 && coords[0] === 240 && (coords[1] + height < 825))  {
-
-                        postActivityToAPI('Free Time',coords[0],coords[1],height)
-
-                    }
+                    
+                    allocateFreeTime("Monday",240)
                     break;
 
                 case(1):
 
-                    let info2 = getActivityCoordinates('00:00',endTime,"Tuesday")
-                    let height2 = info2[2]
-                    let coords2 = findATimeSlot(info2[0],info2[1],info2[2])
-
-                    if(coords2[0] !== -1 && coords2[1] !== -1 && coords2[0] === 480 && (coords2[1] + height2 < 825))  {
-
-                        postActivityToAPI('Free Time',coords2[0],coords2[1],height2)
-
-                    }
+                    allocateFreeTime("Tuesday",480)
                     break;
 
                 case(2):
 
-                    let info3 = getActivityCoordinates('00:00',endTime,"Wednesday")
-                    let height3 = info3[2]
-                    let coords3 = findATimeSlot(info3[0],info3[1],info3[2])
-
-                    if(coords3[0] !== -1 && coords3[1] !== -1 && coords3[0] === 720 && (coords3[1] + height3 < 825))  {
-
-                        postActivityToAPI('Free Time',coords3[0],coords3[1],height3)
-
-                    }
+                    allocateFreeTime("Wednesday",720)
                     break;
 
                 case(3):
 
-                    let info4 = getActivityCoordinates('00:00',endTime,"Thursday")
-                    let height4 = info4[2]
-                    let coords4 = findATimeSlot(info4[0],info4[1],info4[2])
-
-                    if(coords4[0] !== -1 && coords4[1] !== -1 && coords4[0] === 960 && (coords4[1] + height4 < 825))  {
-
-                        postActivityToAPI('Free Time',coords4[0],coords4[1],height4)
-
-                    }
+                    allocateFreeTime("Thursday",960)
                     break;
 
                 case(4):
 
-                    let info5 = getActivityCoordinates('00:00',endTime,"Friday")
-                    let height5 = info5[2]
-                    let coords5 = findATimeSlot(info5[0],info5[1],info5[2])
-
-                    if(coords5[0] !== -1 && coords5[1] !== -1 && coords5[0] === 1200 && (coords5[1] + height5 < 825))  {
-
-                        postActivityToAPI('Free Time',coords5[0],coords5[1],height5)
-
-                    }
+                    allocateFreeTime("Friday",1200)
                     break;
 
                 case(5):
 
-                    let info6 = getActivityCoordinates('00:00',endTime,"Saturday")
-                    let height6 = info6[2]
-                    let coords6 = findATimeSlot(info6[0],info6[1],info6[2])
-
-                    if(coords6[0] !== -1 && coords6[1] !== -1 && coords6[0] === 1440 && (coords6[1] + height6 < 825))  {
-
-                        postActivityToAPI('Free Time',coords6[0],coords6[1],height6)
-
-                    }
+                    allocateFreeTime("Saturday",1440)
                     break;
 
                 case(6):
 
-                    console.log('Sunday')
-                    let info7 = getActivityCoordinates('00:00',endTime,"Sunday")
-                    let height7 = info7[2]
-                    let coords7 = findATimeSlot(info7[0],info7[1],info7[2])
-
-                    if(coords7[0] !== -1 && coords7[1] !== -1 && coords7[0] === 1680 && (coords7[1] + height7 < 825))  {
-
-                        console.log('Free time is able to filled in on Sunday')
-                        postActivityToAPI('Free Time',coords7[0],coords7[1],height7)
-
-                    }
+                    allocateFreeTime("Sunday",1680)
                     break;
             }
+
+    }
+
+}
+
+function allocateFreeTime(day,xPos) {
+
+    let ableToBeFilled = false;
+    let currHoursOfFreeTime = hoursOfFreeTime
+    let freeTimeFilled = 0
+
+    while(ableToBeFilled === false && (hoursOfFreeTime/currHoursOfFreeTime) < 64 && freeTimeFilled < (hoursOfFreeTime*60)) {
+
+        let fillCounter = 0
+
+        for (let i = 0; i < (hoursOfFreeTime/currHoursOfFreeTime); i++) {
+                        
+            let endTime = addMinutesToTime("00:00",(currHoursOfFreeTime*60))
+            let info = getActivityCoordinates('00:00',endTime,day)
+            let height = info[2]
+            let coords = findATimeSlot(info[0],info[1],info[2])
+
+            if(coords[0] !== -1 && coords[1] !== -1 && coords[0] === xPos && (coords[1] + height < 825))  {
+
+                if((currHoursOfFreeTime + freeTimeFilled) < (hoursOfFreeTime*60)) {
+
+                    postActivityToAPI('Free Time',coords[0],coords[1],height)
+                    freeTimeFilled += currHoursOfFreeTime
+                    fillCounter++
+
+                } else {
+
+                    freeTimeFilled = hoursOfFreeTime*60
+                }
+
+            }
+
+        }
+
+        if(fillCounter === (hoursOfFreeTime/currHoursOfFreeTime)) {
+
+            ableToBeFilled = true
+        }
+        currHoursOfFreeTime = (currHoursOfFreeTime/2)
 
     }
 
