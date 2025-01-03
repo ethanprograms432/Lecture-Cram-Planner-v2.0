@@ -612,33 +612,48 @@ document.getElementById('first-form').addEventListener('submit', async function 
   
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
-  
-    try {
-      const response = await fetch('http://localhost:3000/formquestions/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-  
-      const contentType = response.headers.get('Content-Type') || '';
-  
-      if (response.ok) {
-        if (contentType.includes('application/json')) {
-          const result = await response.json();
-          //alert('Form submitted successfully: ' + JSON.stringify(result));
+
+    if(data["breakfast-preference"] === "Yes" && data["breakfast-time"] === "") {
+
+      alert("A time must be entered if you have breakfast!")
+    } else if(data["lunch-preference"] === "Yes" && data["lunch-time"] === "") {
+
+      alert("A time must be entered if you have lunch!")
+    } else if(data["dinner-preference"] === "Yes" && data["dinner-time"] === "") {
+
+      alert("A time must be entered if you have dinner!")
+    } else {
+
+      try {
+        const response = await fetch('http://localhost:3000/formquestions/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+    
+        const contentType = response.headers.get('Content-Type') || '';
+    
+        if (response.ok) {
+          if (contentType.includes('application/json')) {
+            const result = await response.json();
+            //alert('Form submitted successfully: ' + JSON.stringify(result));
+          } else {
+            const result = await response.text();
+            //alert('Form submitted successfully: ' + result);
+          }
         } else {
-          const result = await response.text();
-          //alert('Form submitted successfully: ' + result);
+          const errorText = await response.text();
+          alert(`Error submitting form: ${response.status} ${response.statusText}\n${errorText}`);
         }
-      } else {
-        const errorText = await response.text();
-        alert(`Error submitting form: ${response.status} ${response.statusText}\n${errorText}`);
+      } catch (error) {
+        alert('An error occurred: ' + error.message);
       }
-    } catch (error) {
-      alert('An error occurred: ' + error.message);
+
     }
+  
+    
   });
 
   document.getElementById('added-lecture-form').addEventListener('submit', async function (event) {
@@ -839,9 +854,48 @@ function putActivitiesOntoDiagram() {
     newActivity.innerText = `${name}`
     newActivity.style.display = 'block'
 
+    newActivity.addEventListener('click',() => {
+
+      const activityInfo = document.createElement('div')
+      document.getElementById('added-activity-section').appendChild(activityInfo)
+      activityInfo.setAttribute('class','activity-info')
+
+      activityInfo.innerText = name
+
+      const day = document.createElement("p")
+      day.innerText = "Day: " + dayFromXPos(xPos)
+      const startTime = document.createElement("p")
+      startTime.innerText = "Start Time: " + timeFromYPos(yPos)
+      const endTime = document.createElement("p")
+      endTime.innerText = "End Time: " + timeFromYPos(yPos + height)
+      const closeButton = document.createElement("button")
+      closeButton.innerText = 'Close'
+      closeButton.style.backgroundColor = 'red'
+      closeButton.style.color = 'white'
+
+      closeButton.addEventListener('click',() => {
+
+        activityInfo.style.display = 'none'
+
+      })
+
+      activityInfo.appendChild(day)
+      activityInfo.appendChild(startTime)
+      activityInfo.appendChild(endTime)
+      activityInfo.appendChild(closeButton)
+
+      
+      
+
+
+    })
+
     if(height < 15) {
 
       newActivity.style.fontSize = "11px";
+    } else if(height < 10) {
+
+      newActivity.style.fontSize = "0px";
     }
 
     newActivity.style.backgroundColor = stringToRgb(name)
@@ -851,6 +905,73 @@ function putActivitiesOntoDiagram() {
   })
   putCatchUpDaysOntoDiagram()
 
+}
+
+function dayFromXPos(xPos) {
+
+  switch(xPos) {
+
+    case 240:
+
+      return "Monday"
+      break;
+
+    case 480:
+
+      return "Tuesday"
+      break;
+
+    case 720:
+
+      return "Wednesday"
+      break;
+
+    case 960:
+
+      return "Thursday"
+      break;
+
+    case 1200:
+
+      return "Friday"
+      break;
+
+    case 1440:
+
+      return "Saturday"
+      break;
+
+    case 1680:
+
+      return "Sunday"
+      break;
+  }
+
+}
+
+function timeFromYPos(yPos) {
+
+  let minutes = Math.floor(1440*((yPos - 98.25)/726))
+
+  return minutesToTime(minutes)
+
+  //const yPos = 98.25 + (((60*hours1)+minutes1)/1440)*726
+}
+
+function minutesToTime(minutes) {
+  // Ensure minutes is within a valid range (e.g., handling overflow)
+  const totalMinutes = minutes % (24 * 60);
+  
+  // Calculate hours and minutes
+  const hours = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+
+  // Format hours and minutes as two-digit strings
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(mins).padStart(2, '0');
+
+  // Combine hours and minutes
+  return `${formattedHours}:${formattedMinutes}`;
 }
 
 async function putCatchUpDaysOntoDiagram() {

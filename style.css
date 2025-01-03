@@ -235,7 +235,7 @@ button[type="submit"] {
     color: red;
     border: 5px solid white;
     height: 20.25px;
-    background-color: white;
+    background-color: black;
     margin: -8px;
     text-align: left;
     font-size: 11px;
@@ -333,5 +333,20 @@ button[type="submit"] {
     position: absolute; 
     color: black; 
     border: 1px solid black;
+
+}
+
+.activity-info {
+
+    position: absolute;
+    height: 25vh;
+    width: 25vw;
+    align-items: center;
+    border: 5px solid black;
+    background-color: white;
+    color: black;
+    top: 36.9553%;
+    left: 36.9553%;
+
 
 }
