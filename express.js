@@ -17,6 +17,8 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(cors())
 
+app.use(express.static(path.join(__dirname,'public')))
+
 app.post('/formquestions/',(req,res) => {
 
     formBody = req.body
