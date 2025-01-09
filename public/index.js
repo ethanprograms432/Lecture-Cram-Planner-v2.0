@@ -625,7 +625,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     } else {
 
       try {
-        const response = await fetch('http://localhost:3000/formquestions/', {
+        const response = await fetch('./formquestions/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -673,7 +673,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch('http://localhost:3000/lectures/', {
+      const response = await fetch('./lectures/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -717,7 +717,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch('http://localhost:3000/activities/', {
+      const response = await fetch('./activities/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -761,7 +761,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch('http://localhost:3000/missed-lectures/', {
+      const response = await fetch('./missed-lectures/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -792,7 +792,7 @@ async function generateActivityInfoFromAPI() {
 
   try {
 
-    const response = await fetch('http://localhost:3000/activitycoords/')
+    const response = await fetch('./activitycoords/')
 
     const contentType = response.headers.get('Content-Type') || '';
   
@@ -975,7 +975,7 @@ async function putCatchUpDaysOntoDiagram() {
   let result = {}
   try {
 
-    const response = await fetch('http://localhost:3000/catch-up-days/')
+    const response = await fetch('./catch-up-days/')
 
     const contentType = response.headers.get('Content-Type') || '';
   
