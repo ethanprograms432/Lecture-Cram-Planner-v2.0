@@ -427,7 +427,7 @@ addMissedLectureButton.addEventListener('click', () => {
     const newLectureInput = document.createElement('div')
     missedLectures.prepend(newLectureInput)
     newLectureInput.className = "added-missed-lecture"
-    newLectureInput.style.marginLeft = "-80px";
+    newLectureInput.style.marginLeft = "-40px";
     newLectureInput.id = "missed-lecture" + addedMissedLectureNum
 
     // DOM elements representing lecture content information
@@ -884,10 +884,6 @@ function putActivitiesOntoDiagram() {
       activityInfo.appendChild(endTime)
       activityInfo.appendChild(closeButton)
 
-      
-      
-
-
     })
 
     if(height < 15) {
@@ -1004,11 +1000,11 @@ async function putCatchUpDaysOntoDiagram() {
 
   if(result["catchUpDays"] > 7) {
     
-    document.getElementById('time-to-catch-up').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days.'
+    document.getElementById('actual-catch-up-time').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days'
 
   } else {
 
-    document.getElementById('time-to-catch-up').innerText = "You'll be caught up in under a week!"
+    document.getElementById('actual-catch-up-time').innerText = "You'll be caught up in under a week!"
   }
 
 }

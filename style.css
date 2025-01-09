@@ -21,7 +21,7 @@ body {
 
 .added-activity {
 
-    margin-left: -65px;
+    margin-left: -25px;
 }
 
 .questions1 {
@@ -72,7 +72,7 @@ body {
 button[type="submit"] {
 
     background-color: green;
-    left: 50%;
+    left: 49%;
     position: absolute;
 
 }
@@ -80,13 +80,22 @@ button[type="submit"] {
 #activities-submit-button {
 
     position: fixed;
-    left: 48.5% !important;
+    left: 48.25% !important;
 }
 
 #add-lecture-button {
 
-    left: 1.5% !important;
+    left: 0.5% !important;
     position: relative;
+    color: white;
+    background-color: purple;
+
+}
+
+#add-activity-button, #add-missed-lecture-button {
+
+    color: white;
+    background-color: blue;
 
 }
 
@@ -234,8 +243,8 @@ button[type="submit"] {
 
     color: red;
     border: 5px solid white;
+    background-color: white;
     height: 20.25px;
-    background-color: black;
     margin: -8px;
     text-align: left;
     font-size: 11px;
@@ -348,5 +357,15 @@ button[type="submit"] {
     top: 36.9553%;
     left: 36.9553%;
 
+
+}
+
+#actual-catch-up-time {
+
+    color: red;
+    background-color: black;
+    font-size: 40px;
+    text-align: center;
+    align-items: center;
 
 }

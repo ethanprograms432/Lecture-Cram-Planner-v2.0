@@ -27,17 +27,18 @@
             <form id="first-form" style="background-color: rgba(0,255,255,0.3); width: 100vw; margin-left: -30px; margin-top: -12px">
                 <div id="lectures-behind">
 
+                    <br>
                     <label for="num-lectures-behind">How many lectures are you currently behind on?</label>
                     <input type="number" id="num-lectures-behind" name="num-lectures-behind" min="0" step="1" required>
 
                 </div>
 
                 <div id="sleep">
-                    <label for="sleep-time">Sleep Time</label>
+                    <label for="sleep-time">Bed Time</label>
                     <input type="time" id="sleep-time" name="sleep-time" required>
+
                     <br>
 
-                    <label for="time-format-sleep-time">AM or PM?</label>
                 </div>
 
                 <div id="free-time">
@@ -53,7 +54,7 @@
                     <input type="time" id="wake-time" name="wake-time" required>
                     <br>
 
-                    <label for="time-format-wake-time">AM or PM?</label>
+                    <br>
                 </div>
 
                 <div id="breakfast">
@@ -125,14 +126,14 @@
         
         </div>
 
-        <div class="questions2" style="background-color: rgba(159,226,191,0.3); top: 91px; width: 100vw; position: absolute;">
+        <div class="questions2" style="background-color: rgba(159,226,191,0.3); top: 91px; width: 100vw; position: absolute; left: 0%;">
 
                 <p id="activity-entry-guidance">Here you enter all extra activities</p>
 
                 <div id="activities">
 
                     <button id="add-activity-button">Add An Activity</button>
-                    <p id="activity-header-info" style="margin-left: -50px;">Activity Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                    <p id="activity-header-info" style="margin-right: 20px;">Activity Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                     <form id="activity-form">
 
                         <button type="submit" id="activities-submit-button">Submit</button>
@@ -150,10 +151,10 @@
                 <div id="missed-lectures">
 
                     <button id="add-missed-lecture-button">Add A Missed Lecture</button>
-                    <p id="lecture-heading-info" style="margin-left: -120px;">Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
+                    <p id="lecture-heading-info" style="margin-left: -80px;">Lecture Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day</p>
                     <form id="missed-lecture-form">
 
-                        <br>
+                        <br>6ryt
                         <button type="submit" id="missed-lecture-submit-button">Submit</button>
                         <br>
 
@@ -165,7 +166,7 @@
         <div class="diagram">
 
             <h1 id="diagram-title">The Official Cram Planner Timetable</h1>
-            <p id="time-to-catch-up">Time To Catch Up: </p>
+            <p id="time-to-catch-up"></p>
             <div class="diagram-times">
 
                 <div style="margin-top: 8px;">00:00</div>
@@ -239,6 +240,7 @@
 
             <div class="activity-html-elements" id="added-activity-section"></div>
 
+            <p id="actual-catch-up-time" style="position: absolute; top: 785px; left: 220px; width: 1470px; height: 71px;"></p>
         </div>
         
         <button id="next-page-button">Next Page</button>
