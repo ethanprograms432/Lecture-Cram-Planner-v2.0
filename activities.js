@@ -12,6 +12,7 @@ const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sun
 
 function handleFormData(formData) {
 
+    activityCoords.activities = []
     lecturesBehind = formData["num-lectures-behind"]
     const sleepTime = formData["sleep-time"]
     const wakeTime = formData["wake-time"]
