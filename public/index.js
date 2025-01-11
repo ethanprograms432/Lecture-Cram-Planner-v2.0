@@ -14,6 +14,8 @@ const addLectureButton = document.getElementById('add-lecture-button')
 const addActivityButton = document.getElementById('add-activity-button')
 const addMissedLectureButton = document.getElementById('add-missed-lecture-button')
 
+const submissionConfirmation = document.getElementById('confirmed-submit')
+
 let activityCoordInfo = {}
 
 const questionsTitle = document.getElementById('form-title')
@@ -638,10 +640,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
         if (response.ok) {
           if (contentType.includes('application/json')) {
             const result = await response.json();
-            //alert('Form submitted successfully: ' + JSON.stringify(result));
+            showConfirmationMessage()
           } else {
             const result = await response.text();
-            //alert('Form submitted successfully: ' + result);
+            showConfirmationMessage()
           }
         } else {
           const errorText = await response.text();
@@ -686,10 +688,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
       if (response.ok) {
         if (contentType.includes('application/json')) {
           const result = await response.json();
-          //alert('Form submitted successfully: ' + JSON.stringify(result));
+          showConfirmationMessage()
         } else {
           const result = await response.text();
-          //alert('Form submitted successfully: ' + result);
+          showConfirmationMessage()
         }
       } else {
         const errorText = await response.text();
@@ -730,10 +732,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
       if (response.ok) {
         if (contentType.includes('application/json')) {
           const result = await response.json();
-          //alert('Form submitted successfully: ' + JSON.stringify(result));
+          showConfirmationMessage()
         } else {
           const result = await response.text();
-          //alert('Form submitted successfully: ' + result);
+          showConfirmationMessage()
         }
       } else {
         const errorText = await response.text();
@@ -774,10 +776,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
       if (response.ok) {
         if (contentType.includes('application/json')) {
           const result = await response.json();
-          //alert('Form submitted successfully: ' + JSON.stringify(result));
+          showConfirmationMessage()
         } else {
           const result = await response.text();
-          //alert('Form submitted successfully: ' + result);
+          showConfirmationMessage()
         }
       } else {
         const errorText = await response.text();
@@ -1007,4 +1009,31 @@ async function putCatchUpDaysOntoDiagram() {
     document.getElementById('actual-catch-up-time').innerText = "You'll be caught up in under a week!"
   }
 
+}
+
+async function showConfirmationMessage() {
+
+  submissionConfirmation.style.display = 'block';
+
+  for (let i = 1; i < 10; i++) {
+
+    submissionConfirmation.style.opacity = `0.${i}`
+    await sleep(100)
+
+  }
+
+  for (let i = 10; i > 0; i--) {
+
+    submissionConfirmation.style.opacity = `0.${i}`
+    await sleep(100)
+    
+  }
+
+  submissionConfirmation.style.display = 'none';
+
+}
+
+function sleep(milliseconds) {
+
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }

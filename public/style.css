@@ -369,3 +369,18 @@ button[type="submit"] {
     align-items: center;
 
 }
+
+#confirmed-submit {
+
+    border: 1px solid white;
+    background-color: black;
+    color: green;
+    display: none;
+    position: absolute;
+    top: 39vh;
+    left: 42.19%;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    padding: 75px;
+}
