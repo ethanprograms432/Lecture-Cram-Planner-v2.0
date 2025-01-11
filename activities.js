@@ -131,7 +131,7 @@ function handleMissedLectureData(missedLectureData) {
 
                         if((coords[1] + coords[2]) < 825) {
 
-                            postActivityToAPI(missedLectureName,x,y,initHeight)
+                            postActivityToAPI(missedLectureName,x,y,coords[2])
 
                         } else {
 
