@@ -30,20 +30,46 @@ function handleFormData(formData) {
     if(formData["breakfast-preference"] === "Yes") {
 
         let endTime = addMinutesToTime(formData["breakfast-time"],20)
-        handleEveryDayData('Breakfast',formData["breakfast-time"],endTime,true)
+
+        if(!isOverlapping(formData["breakfast-time"],endTime)) {
+
+            handleEveryDayData('Breakfast',formData["breakfast-time"],endTime,true)
+        } else {
+
+            handleEveryDayData('Breakfast',formData["breakfast-time"],'24:00',true)
+            handleEveryDayData('Breakfast','00:00',endTime,true)
+        }
+        
     }
 
     if(formData["lunch-preference"] === "Yes") {
 
         let endTime = addMinutesToTime(formData["lunch-time"],20)
-        handleEveryDayData('Lunch',formData["lunch-time"],endTime,true)
+
+        if(!isOverlapping(formData["lunch-time"],endTime)) {
+
+            handleEveryDayData('Lunch',formData["lunch-time"],endTime,true)
+        } else {
+
+            handleEveryDayData('Lunch',formData["lunch-time"],'24:00',true)
+            handleEveryDayData('Lunch','00:00',endTime,true)
+        }
         
     }
 
     if(formData["dinner-preference"] === "Yes") {
 
         let endTime = addMinutesToTime(formData["dinner-time"],30)
-        handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
+
+        if(!isOverlapping(formData["dinner-time"],endTime)) {
+
+            handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
+        } else {
+
+            handleEveryDayData('Dinner',formData["dinner-time"],'24:00',true)
+            handleEveryDayData('Dinner','00:00',endTime,true)
+        }
+        
         
     }
 
@@ -56,20 +82,96 @@ function handleLectureData(lectureData) {
         for (let i = 0; i < lectureData["lecture-name"].length; i++) {
 
             let endTime = addMinutesToTime(lectureData["lecture-start-time"][i],50)
+            let startTime = lectureData["lecture-start-time"][i]
 
             if(lectureData["lecture-day"][i] === "Everyday") {
         
-                handleEveryDayData(lectureData["lecture-name"][i],lectureData["lecture-start-time"][i],endTime,false)
+
+                if(!isOverlapping(startTime,endTime)) {
+
+                    handleEveryDayData(lectureData["lecture-name"][i],lectureData["lecture-start-time"][i],endTime,false)
+                } else {
+
+                    handleEveryDayData(lectureData["lecture-name"][i],startTime,'24:00',false)
+                    handleEveryDayData(lectureData["lecture-name"][i],'00:00',endTime,false)
+                }
+                
 
             } else {
 
-                let info = getActivityCoordinates(lectureData["lecture-start-time"][i],endTime,lectureData["lecture-day"][i])
-                postActivityToAPI(lectureData["lecture-name"][i],info[0],info[1],info[2])
+                if(!isOverlapping(startTime,endTime)) {
+
+                    let info = getActivityCoordinates(lectureData["lecture-start-time"][i],endTime,lectureData["lecture-day"][i])
+                    postActivityToAPI(lectureData["lecture-name"][i],info[0],info[1],info[2])
+                } else {
+
+                    let followingDay = getFollowingDay(lectureData["lecture-day"][i])
+                    let infoOne = getActivityCoordinates(lectureData["lecture-start-time"][i],'24:00',lectureData["lecture-day"][i])
+                    postActivityToAPI(lectureData["lecture-name"][i],infoOne[0],infoOne[1],infoOne[2])
+
+                    let infoTwo = getActivityCoordinates('00:00',endTime,followingDay)
+                    postActivityToAPI(lectureData["lecture-name"][i],infoTwo[0],infoTwo[1],infoTwo[2])
+                }
+                
 
             }
 
         }
     }
+}
+
+function getFollowingDay(day) {
+
+    switch(day) {
+
+        case 'Monday':
+
+            return 'Tuesday'
+            break;
+
+        case 'Tuesday':
+
+            return 'Wednesday'
+            break;
+
+        case 'Wednesday':
+
+            return 'Thursday'
+            break;
+
+        case 'Thursday':
+
+            return 'Friday'
+            break;
+
+        case 'Friday':
+
+            return 'Saturday'
+            break;
+
+        case 'Saturday':
+
+            return 'Sunday'
+            break;
+
+        case 'Sunday':
+
+            return 'Monday'
+            break;
+    }
+
+}
+
+function isOverlapping(startTime,endTime) {
+
+    if((startTime.substring(0,startTime.indexOf(":"))) < endTime.substring(0,endTime.indexOf(":"))) {
+
+        return false;
+    } else {
+
+        return true;
+    }
+
 }
 
 function handleMissedLectureData(missedLectureData) {
@@ -157,34 +259,6 @@ function handleMissedLectureData(missedLectureData) {
     fillInFreeTime()
     fillInLecturesToCatchUp()
 
-    /*
-    if((coords[1] + height) < 825) {
-
-                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],height)
-                lecturesBehind -= 1;
-                lecturesFilled++;
-
-            } else {
-
-                let secondElementHeight = height - (825 - coords[1])
-                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],(825 - coords[1]))
-
-                if((coords[0] + 240) <= 1680) {
-
-                    postActivityToAPI('Lecture Catch Up',coords[0] + 240,98.25,secondElementHeight)
-                    lecturesBehind -= 1;
-                    lecturesFilled++;
-
-                } else {
-
-                    postActivityToAPI('Lecture Catch Up',240,98.25,secondElementHeight)
-                    lecturesBehind -= 1;
-                    lecturesFilled++;
-
-                }
-
-            }
-    */
 }
 
 function fillInFreeTime()
@@ -331,7 +405,6 @@ async function fillInLecturesToCatchUp() {
 
     const daysItWillTake = Math.ceil(7*((lecturesFilled+lecturesBehind)/lecturesFilled));
 
-    //console.log("It will take " + daysItWillTake + " days to catch up if you start today.")
 
     try {
 
@@ -462,18 +535,49 @@ function handleActivityData(activityData) {
             const endDay = activityData["activity-end-day"][i]
             const endTime = activityData["activity-end-time"][i]
 
-            if(startDay === endDay) {
+            if(startDay === endDay || startDay === 'Everyday') {
 
                 // FOR LATER, INCLUDE THE CASE WHERE START TIME IS AFTER END TIME
 
                 if(startDay === 'Everyday') {
 
-                    handleEveryDayData(activityName,startTime,endTime,true)
+                    if(!isOverlapping(startTime,endTime)) {
+
+                        handleEveryDayData(activityName,startTime,endTime,true)
+                    } else {
+
+
+                        handleEveryDayData(activityName,startTime,'24:00',true)
+                        handleEveryDayData(activityName,'00:00',endTime,true)
+                    }
+                    
 
                 } else {
 
-                    let info = getActivityCoordinates(startTime,endTime,startDay)
-                    postActivityToAPI(activityName,info[0],info[1],info[2])
+                    if(!isOverlapping(startTime,endTime)) {
+
+                        let info = getActivityCoordinates(startTime,endTime,startDay)
+                        postActivityToAPI(activityName,info[0],info[1],info[2])
+
+                    } else {
+
+                        let followingDay = getFollowingDay(startDay)
+                        let info = getActivityCoordinates(startTime,'24:00',startDay)
+                        postActivityToAPI(activityName,info[0],info[1],info[2])
+
+                        while(followingDay !== startDay) {
+
+                            info = getActivityCoordinates('00:00','24:00',followingDay)
+                            postActivityToAPI(activityName,info[0],info[1],info[2])
+                            followingDay = getFollowingDay(followingDay)
+                        }
+                        
+                        info = getActivityCoordinates('00:00',endTime,followingDay)
+                        postActivityToAPI(activityName,info[0],info[1],info[2])
+
+
+                    }
+                    
 
                 }
 
