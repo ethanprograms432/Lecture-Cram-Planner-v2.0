@@ -1004,9 +1004,12 @@ async function putCatchUpDaysOntoDiagram() {
     
     document.getElementById('actual-catch-up-time').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days'
 
-  } else {
+  } else if(result["catchUpDays"] !== null) {
 
     document.getElementById('actual-catch-up-time').innerText = "You'll be caught up in under a week!"
+  } else {
+
+    document.getElementById('actual-catch-up-time').innerText = "It is impossible to catch up with a schedule like this"
   }
 
 }

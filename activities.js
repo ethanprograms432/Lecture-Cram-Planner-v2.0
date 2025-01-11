@@ -96,7 +96,23 @@ function handleMissedLectureData(missedLectureData) {
                     console.log('One lecture could not be filled')
                 } else {
 
-                    postActivityToAPI(missedLectureName,x,y,initHeight)
+                    if((coords[1] + coords[2]) < 825) {
+
+                        postActivityToAPI(missedLectureName,x,y,initHeight)
+
+                    } else {
+
+                        let secondElementHeight = coords[2] - (825 - coords[1])
+                        postActivityToAPI(missedLectureName,coords[0],coords[1],(825 - coords[1]))
+
+                        if((coords[0] + 240) <= 1680) {
+
+                            postActivityToAPI(missedLectureName,coords[0] + 240,98.25,secondElementHeight)
+                        } else {
+
+                            postActivityToAPI(missedLectureName,240,98.25,secondElementHeight)
+                        }
+                    }
                 }
             } else {
 
@@ -113,7 +129,23 @@ function handleMissedLectureData(missedLectureData) {
                         console.log('One lecture could not be filled')
                     } else {
 
-                        postActivityToAPI(missedLectureName,x,y,initHeight)
+                        if((coords[1] + coords[2]) < 825) {
+
+                            postActivityToAPI(missedLectureName,x,y,initHeight)
+
+                        } else {
+
+                            let secondElementHeight = coords[2] - (825 - coords[1])
+                            postActivityToAPI(missedLectureName,coords[0],coords[1],(825 - coords[1]))
+
+                            if((coords[0] + 240) <= 1680) {
+
+                                postActivityToAPI(missedLectureName,coords[0] + 240,98.25,secondElementHeight)
+                            } else {
+
+                                postActivityToAPI(missedLectureName,240,98.25,secondElementHeight)
+                            }
+                        }
                     }
 
                 }
@@ -125,6 +157,34 @@ function handleMissedLectureData(missedLectureData) {
     fillInFreeTime()
     fillInLecturesToCatchUp()
 
+    /*
+    if((coords[1] + height) < 825) {
+
+                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],height)
+                lecturesBehind -= 1;
+                lecturesFilled++;
+
+            } else {
+
+                let secondElementHeight = height - (825 - coords[1])
+                postActivityToAPI('Lecture Catch Up',coords[0],coords[1],(825 - coords[1]))
+
+                if((coords[0] + 240) <= 1680) {
+
+                    postActivityToAPI('Lecture Catch Up',coords[0] + 240,98.25,secondElementHeight)
+                    lecturesBehind -= 1;
+                    lecturesFilled++;
+
+                } else {
+
+                    postActivityToAPI('Lecture Catch Up',240,98.25,secondElementHeight)
+                    lecturesBehind -= 1;
+                    lecturesFilled++;
+
+                }
+
+            }
+    */
 }
 
 function fillInFreeTime()
@@ -347,6 +407,11 @@ function isValidSlot(x,y,height) {
         extendsDays = true
 
         x3 = x2
+        if(x3 >= 1680) {
+
+            x3 = 240
+        }
+       
         x4 = x3 + 240
 
         y3 = 98.25
