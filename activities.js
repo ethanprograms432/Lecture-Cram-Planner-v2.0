@@ -96,13 +96,13 @@ function handleMissedLectureData(missedLectureData) {
                     console.log('One lecture could not be filled')
                 } else {
 
-                    if((coords[1] + coords[2]) < 825) {
+                    if((coords[1] + info[2]) < 825) {
 
                         postActivityToAPI(missedLectureName,x,y,initHeight)
 
                     } else {
 
-                        let secondElementHeight = coords[2] - (825 - coords[1])
+                        let secondElementHeight = info[2] - (825 - coords[1])
                         postActivityToAPI(missedLectureName,coords[0],coords[1],(825 - coords[1]))
 
                         if((coords[0] + 240) <= 1680) {
@@ -129,13 +129,13 @@ function handleMissedLectureData(missedLectureData) {
                         console.log('One lecture could not be filled')
                     } else {
 
-                        if((coords[1] + coords[2]) < 825) {
+                        if((coords[1] + info[2]) < 825) {
 
-                            postActivityToAPI(missedLectureName,x,y,coords[2])
+                            postActivityToAPI(missedLectureName,x,y,info[2])
 
                         } else {
 
-                            let secondElementHeight = coords[2] - (825 - coords[1])
+                            let secondElementHeight = info[2] - (825 - coords[1])
                             postActivityToAPI(missedLectureName,coords[0],coords[1],(825 - coords[1]))
 
                             if((coords[0] + 240) <= 1680) {
