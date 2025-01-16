@@ -7,8 +7,14 @@ const activityCoords = {
 let lecturesBehind = 0
 let timeToCatchUp = ''
 let hoursOfFreeTime = 0
+let userID = ""
 
 const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
+function recieveUserID(id) {
+
+    userID = id
+}
 
 function handleFormData(formData) {
 
@@ -31,44 +37,22 @@ function handleFormData(formData) {
 
         let endTime = addMinutesToTime(formData["breakfast-time"],20)
 
-        if(!isOverlapping(formData["breakfast-time"],endTime)) {
+        handleEveryDayData('Breakfast',formData["breakfast-time"],endTime,true)
 
-            handleEveryDayData('Breakfast',formData["breakfast-time"],endTime,true)
-        } else {
-
-            handleEveryDayData('Breakfast',formData["breakfast-time"],'24:00',true)
-            handleEveryDayData('Breakfast','00:00',endTime,true)
-        }
         
     }
 
     if(formData["lunch-preference"] === "Yes") {
 
         let endTime = addMinutesToTime(formData["lunch-time"],20)
-
-        if(!isOverlapping(formData["lunch-time"],endTime)) {
-
-            handleEveryDayData('Lunch',formData["lunch-time"],endTime,true)
-        } else {
-
-            handleEveryDayData('Lunch',formData["lunch-time"],'24:00',true)
-            handleEveryDayData('Lunch','00:00',endTime,true)
-        }
+        handleEveryDayData('Lunch',formData["lunch-time"],endTime,true)
         
     }
 
     if(formData["dinner-preference"] === "Yes") {
 
         let endTime = addMinutesToTime(formData["dinner-time"],30)
-
-        if(!isOverlapping(formData["dinner-time"],endTime)) {
-
-            handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
-        } else {
-
-            handleEveryDayData('Dinner',formData["dinner-time"],'24:00',true)
-            handleEveryDayData('Dinner','00:00',endTime,true)
-        }
+        handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
         
         
     }
@@ -408,7 +392,7 @@ async function fillInLecturesToCatchUp() {
 
     try {
 
-        const response = await fetch('http://localhost:3000/catch-up-days',{
+        const response = await fetch(`http://localhost:3000/catch-up-days/${userID}`,{
 
             method: 'POST',
             headers: {
@@ -743,7 +727,7 @@ async function postActivityToAPI(activityName,xPos,yPos,elementHeight) {
     await activityCoords.activities.push(newActivityInfo)
 
     try {
-        const response = await fetch('http://localhost:3000/activitycoords/', {
+        const response = await fetch(`http://localhost:3000/activitycoords/${userID}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -771,4 +755,4 @@ async function postActivityToAPI(activityName,xPos,yPos,elementHeight) {
 
 }
 
-module.exports = { handleFormData, handleLectureData, handleActivityData, handleMissedLectureData }
+module.exports = { recieveUserID, handleFormData, handleLectureData, handleActivityData, handleMissedLectureData }

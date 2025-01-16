@@ -17,6 +17,7 @@ const addMissedLectureButton = document.getElementById('add-missed-lecture-butto
 const submissionConfirmation = document.getElementById('confirmed-submit')
 
 let activityCoordInfo = {}
+let randomUserID = ""
 
 const questionsTitle = document.getElementById('form-title')
 
@@ -145,6 +146,34 @@ backButton.addEventListener('click', () => {
         // Handle other cases if necessary
     }
 });
+
+async function postUserToAPI() {
+
+
+  try {
+
+    const response = await fetch('http://localhost:3000/users/',{
+
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({userID: randomUserID}),
+    })
+
+    if(response.ok) {
+
+      const result = await response.text()
+    } else {
+
+      const errorText = await response.text()
+      alert('An error occurred in posting this user to the API')
+    }
+  } catch(error) {
+
+    alert('An error occurred')
+  }
+}
 
 addLectureButton.addEventListener('click', () => {
 
@@ -627,7 +656,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     } else {
 
       try {
-        const response = await fetch('./formquestions/', {
+        const response = await fetch(`http://localhost:3000/formquestions/${randomUserID}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -675,7 +704,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch('./lectures/', {
+      const response = await fetch(`http://localhost:3000/lectures/${randomUserID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -719,7 +748,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch('./activities/', {
+      const response = await fetch(`http://localhost:3000/activities/${randomUserID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -763,7 +792,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch('./missed-lectures/', {
+      const response = await fetch(`http://localhost:3000/missed-lectures/${randomUserID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -792,9 +821,10 @@ document.getElementById('first-form').addEventListener('submit', async function 
 
 async function generateActivityInfoFromAPI() {
 
+  
   try {
 
-    const response = await fetch('./activitycoords/')
+    const response = await fetch(`http://localhost:3000/activitycoords/${randomUserID}`)
 
     const contentType = response.headers.get('Content-Type') || '';
   
@@ -977,7 +1007,7 @@ async function putCatchUpDaysOntoDiagram() {
   let result = {}
   try {
 
-    const response = await fetch('./catch-up-days/')
+    const response = await fetch(`http://localhost:3000/catch-up-days/${randomUserID}`)
 
     const contentType = response.headers.get('Content-Type') || '';
   
@@ -1036,7 +1066,27 @@ async function showConfirmationMessage() {
 
 }
 
+function generateHash() {
+
+  let length = Math.floor(Math.random() * 20)
+  let currHash = ""
+
+  for (let i = 0; i < length; i++) {
+
+    let randomNum = Math.floor(Math.random() * 10)
+
+    currHash = currHash + ("" + randomNum)
+
+  }
+
+  console.log(currHash)
+  return currHash
+}
+
 function sleep(milliseconds) {
 
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
+
+randomUserID = generateHash()
+postUserToAPI()

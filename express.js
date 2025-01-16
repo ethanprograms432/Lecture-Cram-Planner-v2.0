@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
-const { handleFormData, handleLectureData, handleActivityData, handleMissedLectureData } = require('./activities.js')
+const { recieveUserID, handleFormData, handleLectureData, handleActivityData, handleMissedLectureData } = require('./activities.js')
 const cors = require('cors')
 const app = express()
 const PORT = 3000
@@ -12,6 +12,12 @@ let activities = {}
 let missedLectures = {}
 let activityCoords = {}
 let catchUpDays = {}
+let users = {
+
+    users: []
+}
+
+let userID = ""
 
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true}))
@@ -19,86 +25,99 @@ app.use(cors())
 
 app.use(express.static(path.join(__dirname,'public')))
 
-app.post('/formquestions/',(req,res) => {
+app.post('/users/',(req,res) => {
 
-    formBody = req.body
-    handleFormData(formBody)
+    recieveUserID(req.body.userID)
+    userID = req.body.userID
+    users.users.push(req.body)
+
+})
+
+app.post('/formquestions/:id',(req,res) => {
+
+    formBody[userID] = req.body
+    handleFormData(formBody[userID])
     res.status(201).send('Submission successful')
     
 })
 
-app.post('/lectures/',(req,res) => {
+app.post('/lectures/:id',(req,res) => {
 
-    lectures = req.body
-    handleLectureData(lectures)
+    lectures[userID] = req.body
+    handleLectureData(lectures[userID])
     res.status(201).send('Submission successful')
 
 })
 
-app.post('/activities/',(req,res) => {
+app.post('/activities/:id',(req,res) => {
 
-    activities = req.body
-    handleActivityData(activities)
+    activities[userID] = req.body
+    handleActivityData(activities[userID])
     res.status(201).send('Submission successful')
 
 })
 
-app.post('/missed-lectures/',(req,res) => {
+app.post('/missed-lectures/:id',(req,res) => {
 
-    missedLectures = req.body
-    handleMissedLectureData(missedLectures)
+    missedLectures[userID] = req.body
+    handleMissedLectureData(missedLectures[userID])
     res.status(201).send('Submission successful')
 
 })
 
-app.post('/catch-up-days/',(req,res) => {
+app.post('/catch-up-days/:id',(req,res) => {
 
-    catchUpDays = req.body
+    catchUpDays[userID] = req.body
 
 })
 
-app.post('/activitycoords/',(req,res) => {
+app.post('/activitycoords/:id',(req,res) => {
 
-    activityCoords = req.body
+    activityCoords[userID] = req.body
 
 })
 
 /* GET REQUESTS */
 
 
-app.get('/activitycoords/',(req,res) => {
+app.get('/activitycoords/:id',(req,res) => {
 
-    res.send(activityCoords)
-
-})
-
-app.get('/catch-up-days/',(req,res) => {
-
-    res.send(catchUpDays)
+    res.send(activityCoords[req.params.id])
 
 })
 
-app.get('/formquestions/', (req,res) => {
+app.get('/catch-up-days/:id',(req,res) => {
 
-    res.send(formBody)
-
-})
-
-app.get('/activities/',(req,res) => {
-
-    res.send(activities)
-})
-
-app.get('/lectures/', (req,res) => {
-
-    res.send(lectures)
+    res.send(catchUpDays[req.params.id])
 
 })
 
-app.get('/missed-lectures', (req,res) => {
+app.get('/formquestions/:id', (req,res) => {
 
-    res.send(missedLectures)
+    res.send(formBody[req.params.id])
 
+})
+
+app.get('/activities/:id',(req,res) => {
+
+    res.send(activities[req.params.id])
+})
+
+app.get('/lectures/:id', (req,res) => {
+
+    res.send(lectures[req.params.id])
+
+})
+
+app.get('/missed-lectures/:id', (req,res) => {
+
+    res.send(missedLectures[req.params.id])
+
+})
+
+app.get('/users/',(req,res) => {
+
+    res.send(users)
 })
 
 
