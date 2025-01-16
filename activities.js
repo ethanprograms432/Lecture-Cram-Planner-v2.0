@@ -392,7 +392,7 @@ async function fillInLecturesToCatchUp() {
 
     try {
 
-        const response = await fetch(`http://localhost:3000/catch-up-days/${userID}`,{
+        const response = await fetch(`./catch-up-days/${userID}`,{
 
             method: 'POST',
             headers: {
@@ -727,7 +727,7 @@ async function postActivityToAPI(activityName,xPos,yPos,elementHeight) {
     await activityCoords.activities.push(newActivityInfo)
 
     try {
-        const response = await fetch(`http://localhost:3000/activitycoords/${userID}`, {
+        const response = await fetch(`./activitycoords/${userID}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

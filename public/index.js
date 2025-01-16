@@ -152,7 +152,7 @@ async function postUserToAPI() {
 
   try {
 
-    const response = await fetch('http://localhost:3000/users/',{
+    const response = await fetch('./users/',{
 
       method: 'POST',
       headers: {
@@ -656,7 +656,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     } else {
 
       try {
-        const response = await fetch(`http://localhost:3000/formquestions/${randomUserID}`, {
+        const response = await fetch(`./formquestions/${randomUserID}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -704,7 +704,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch(`http://localhost:3000/lectures/${randomUserID}`, {
+      const response = await fetch(`./lectures/${randomUserID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -748,7 +748,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch(`http://localhost:3000/activities/${randomUserID}`, {
+      const response = await fetch(`./activities/${randomUserID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -792,7 +792,7 @@ document.getElementById('first-form').addEventListener('submit', async function 
     })
   
     try {
-      const response = await fetch(`http://localhost:3000/missed-lectures/${randomUserID}`, {
+      const response = await fetch(`./missed-lectures/${randomUserID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -824,7 +824,7 @@ async function generateActivityInfoFromAPI() {
   
   try {
 
-    const response = await fetch(`http://localhost:3000/activitycoords/${randomUserID}`)
+    const response = await fetch(`./activitycoords/${randomUserID}`)
 
     const contentType = response.headers.get('Content-Type') || '';
   
@@ -1007,7 +1007,7 @@ async function putCatchUpDaysOntoDiagram() {
   let result = {}
   try {
 
-    const response = await fetch(`http://localhost:3000/catch-up-days/${randomUserID}`)
+    const response = await fetch(`./catch-up-days/${randomUserID}`)
 
     const contentType = response.headers.get('Content-Type') || '';
   
