@@ -392,7 +392,7 @@ async function fillInLecturesToCatchUp() {
 
     try {
 
-        const response = await fetch(`./catch-up-days/${userID}`,{
+        const response = await fetch(`https:/lecture-cram-planner-v2-0.onrender.com/catch-up-days/${userID}`,{
 
             method: 'POST',
             headers: {
@@ -727,7 +727,7 @@ async function postActivityToAPI(activityName,xPos,yPos,elementHeight) {
     await activityCoords.activities.push(newActivityInfo)
 
     try {
-        const response = await fetch(`./activitycoords/${userID}`, {
+        const response = await fetch(`https://lecture-cram-planner-v2-0.onrender.com/activitycoords/${userID}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
