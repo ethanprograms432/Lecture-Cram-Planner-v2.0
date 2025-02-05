@@ -153,6 +153,10 @@ function isOverlapping(startTime,endTime) {
         return false;
     } else {
 
+        if(startTime.substring(startTime.indexOf(":") + 1) < endTime.substring(endTime.indexOf(":") + 1)) {
+
+            return false;
+        }
         return true;
     }
 
