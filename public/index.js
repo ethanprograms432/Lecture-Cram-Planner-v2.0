@@ -1079,7 +1079,6 @@ function generateHash() {
 
   }
 
-  console.log(currHash)
   return currHash
 }
 

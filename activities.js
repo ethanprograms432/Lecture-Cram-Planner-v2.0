@@ -24,6 +24,10 @@ function handleFormData(formData) {
     const wakeTime = formData["wake-time"]
     hoursOfFreeTime = formData["free-time-hours"]
 
+    const breakfastDuration = formData["breakfast-duration"]
+    const lunchDuration = formData["lunch-duration"]
+    const dinnerDuration = formData["dinner-duration"]
+
     if(sleepTime.substring(0,sleepTime.indexOf(":")) < wakeTime.substring(0,wakeTime.indexOf(":"))) {
 
         handleEveryDayData('Sleep',sleepTime,wakeTime,true)
@@ -35,7 +39,7 @@ function handleFormData(formData) {
 
     if(formData["breakfast-preference"] === "Yes") {
 
-        let endTime = addMinutesToTime(formData["breakfast-time"],20)
+        let endTime = addMinutesToTime(formData["breakfast-time"],breakfastDuration)
 
         handleEveryDayData('Breakfast',formData["breakfast-time"],endTime,true)
 
@@ -44,14 +48,14 @@ function handleFormData(formData) {
 
     if(formData["lunch-preference"] === "Yes") {
 
-        let endTime = addMinutesToTime(formData["lunch-time"],20)
+        let endTime = addMinutesToTime(formData["lunch-time"],lunchDuration)
         handleEveryDayData('Lunch',formData["lunch-time"],endTime,true)
         
     }
 
     if(formData["dinner-preference"] === "Yes") {
 
-        let endTime = addMinutesToTime(formData["dinner-time"],30)
+        let endTime = addMinutesToTime(formData["dinner-time"],dinnerDuration)
         handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
         
         
