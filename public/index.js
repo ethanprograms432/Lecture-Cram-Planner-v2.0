@@ -1032,11 +1032,11 @@ async function putCatchUpDaysOntoDiagram() {
 
   if(result["catchUpDays"] > 7) {
     
-    document.getElementById('actual-catch-up-time').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days'
+    document.getElementById('actual-catch-up-time').innerText = 'Time to Catch Up: ' + result["catchUpDays"] + ' days if you start on ' + result["day"]
 
   } else if(result["catchUpDays"] !== null) {
 
-    document.getElementById('actual-catch-up-time').innerText = "You'll be caught up in under a week!"
+    document.getElementById('actual-catch-up-time').innerText = "You'll be caught up in under a week if you start on " + result["day"] + "!"
   } else {
 
     document.getElementById('actual-catch-up-time').innerText = "It is impossible to catch up with a schedule like this"

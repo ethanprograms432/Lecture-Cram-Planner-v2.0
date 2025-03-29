@@ -5,9 +5,11 @@ const activityCoords = {
 }
 
 let lecturesBehind = 0
+let initlecturesBehind = 0
 let timeToCatchUp = ''
 let hoursOfFreeTime = 0
 let userID = ""
+let lecturesToCatchUpPerDay = [0,0,0,0,0,0,0]
 
 const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 
@@ -20,6 +22,7 @@ function handleFormData(formData) {
 
     activityCoords.activities = []
     lecturesBehind = formData["num-lectures-behind"]
+    initlecturesBehind = formData["num-lectures-behind"]
     const sleepTime = formData["sleep-time"]
     const wakeTime = formData["wake-time"]
     hoursOfFreeTime = formData["free-time-hours"]
@@ -41,7 +44,17 @@ function handleFormData(formData) {
 
         let endTime = addMinutesToTime(formData["breakfast-time"],breakfastDuration)
 
-        handleEveryDayData('Breakfast',formData["breakfast-time"],endTime,true)
+        if(!isOverlapping(formData["breakfast-time"],endTime)) {
+
+            handleEveryDayData('Breakfast',formData["breakfast-time"],endTime,true)
+        } else {
+
+            handleEveryDayData('Breakfast',formData["breakfast-time"],'24:00',true)
+            handleEveryDayData('Breakfast','00:00',endTime,true)
+
+
+        }
+        
 
         
     }
@@ -49,14 +62,34 @@ function handleFormData(formData) {
     if(formData["lunch-preference"] === "Yes") {
 
         let endTime = addMinutesToTime(formData["lunch-time"],lunchDuration)
-        handleEveryDayData('Lunch',formData["lunch-time"],endTime,true)
+
+        if(!isOverlapping(formData["lunch-time"],endTime)) {
+
+            handleEveryDayData('Lunch',formData["lunch-time"],endTime,true)
+        } else {
+
+            handleEveryDayData('Lunch',formData["lunch-time"],'24:00',true)
+            handleEveryDayData('Lunch','00:00',endTime,true)
+
+
+        }
         
     }
 
     if(formData["dinner-preference"] === "Yes") {
 
         let endTime = addMinutesToTime(formData["dinner-time"],dinnerDuration)
-        handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
+
+        if(!isOverlapping(formData["dinner-time"],endTime)) {
+
+            handleEveryDayData('Dinner',formData["dinner-time"],endTime,true)
+        } else {
+
+            handleEveryDayData('Dinner',formData["dinner-time"],'24:00',true)
+            handleEveryDayData('Dinner','00:00',endTime,true)
+
+
+        }
         
         
     }
@@ -145,6 +178,48 @@ function getFollowingDay(day) {
         case 'Sunday':
 
             return 'Monday'
+            break;
+    }
+
+}
+
+function getDayFromIndex(index) {
+
+    switch(index) {
+
+        case 1:
+
+            return 'Monday'
+            break;
+
+        case 2:
+
+            return 'Tuesday'
+            break;
+
+        case 3:
+
+            return 'Wednesday'
+            break;
+
+        case 4:
+
+            return 'Thursday'
+            break;
+
+        case 5:
+
+            return 'Friday'
+            break;
+
+        case 6:
+
+            return 'Saturday'
+            break;
+
+        case 0:
+
+            return 'Sunday'
             break;
     }
 
@@ -347,6 +422,48 @@ function allocateFreeTime(day,xPos) {
 
 }
 
+function addDailyNumLectures(xPos) {
+
+    switch(xPos) {
+
+        case 240:
+
+            lecturesToCatchUpPerDay[0]++
+            break
+
+        case 480:
+
+            lecturesToCatchUpPerDay[1]++
+            break
+
+        case 720:
+
+            lecturesToCatchUpPerDay[2]++
+            break
+
+        case 960:
+
+            lecturesToCatchUpPerDay[3]++
+            break
+
+        case 1200:
+
+            lecturesToCatchUpPerDay[4]++
+            break
+
+        case 1440:
+
+            lecturesToCatchUpPerDay[5]++
+            break
+
+        case 1680:
+
+            lecturesToCatchUpPerDay[6]++
+            break
+    }
+
+}
+
 async function fillInLecturesToCatchUp() {
 
     let ableToBeFilled = true
@@ -357,6 +474,7 @@ async function fillInLecturesToCatchUp() {
         let info = getActivityCoordinates('00:00','00:50','Monday')
         let height = info[2]
         let coords = findATimeSlot(info[0],info[1],info[2])
+        addDailyNumLectures(coords[0])
 
         if(coords[0] !== -1 && coords[1] !== -1) {
 
@@ -395,8 +513,14 @@ async function fillInLecturesToCatchUp() {
 
     }
 
-    const daysItWillTake = Math.ceil(7*((lecturesFilled+lecturesBehind)/lecturesFilled));
+    let daysItWillTake = null
+    let day = null
+    if(lecturesBehind < initlecturesBehind) {
 
+        ({ daysItWillTake, day } = await getCatchUpDays())
+
+    }
+    
 
     try {
 
@@ -407,7 +531,7 @@ async function fillInLecturesToCatchUp() {
 
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({catchUpDays: daysItWillTake})
+            body: JSON.stringify({catchUpDays: daysItWillTake, day: day })
         })
 
         const contentType = response.headers.get('Content-Type') || '';
@@ -430,6 +554,37 @@ async function fillInLecturesToCatchUp() {
         console.log(error.message)
     }
 
+}
+
+async function getCatchUpDays() {
+
+    const today = new Date();
+    let indexOfTommorow = today.getDay() + 1
+    let day = getDayFromIndex(today.getDay())
+    if(indexOfTommorow > 6) { 
+        
+        indexOfTommorow = 0 
+    }
+    let currLecturesBehind = Number(initlecturesBehind)
+    let numCatchUpDays = 0
+
+    while(currLecturesBehind > 0) {
+
+        currLecturesBehind -= lecturesToCatchUpPerDay[indexOfTommorow]
+        if(currLecturesBehind > 0) {
+
+            numCatchUpDays++
+        }
+
+        indexOfTommorow++
+
+        if(indexOfTommorow > 6) { indexOfTommorow = 0 }
+
+    }
+    console.log(numCatchUpDays)
+    console.log(day)
+    return { numCatchUpDays, day }
+ 
 }
 
 
@@ -621,6 +776,7 @@ function handleActivityData(activityData) {
 
 function addMinutesToTime(timeString,minutesToAdd) {
 
+  minutesToAdd = Number(minutesToAdd)
     // Extract hours and minutes from the input string
   const [hours, minutes] = timeString.split(":").map(Number);
 
